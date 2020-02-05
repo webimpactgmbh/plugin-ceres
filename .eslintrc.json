@@ -1,13 +1,14 @@
 {
-  "parser": "babel-eslint",
+  "parser": "vue-eslint-parser",
   "parserOptions": {
+    "parser": "babel-eslint",
     "ecmaVersion": 2018,
     "sourceType": "module",
     "ecmaFeatures": {
         "jsx": true
     }
   },
-  "extends": "google",
+  "extends": "plugin:vue/recommended",
   "globals": {
     "jQuery": false,
     "$"     : true
