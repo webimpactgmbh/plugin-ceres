@@ -1,3 +1,4 @@
+import "./app/publicPath";
 // =========================
 // Polyfill's
 // =========================
@@ -12,19 +13,29 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 const mount = Vue.prototype.$mount;
+const dataComponentElements = [].slice.call(document.querySelectorAll("script[data-component], template[data-component]"));
+const overriddenComponents = dataComponentElements.reduce(
+    (obj, el) =>
+    {
+        return {
+            ...obj,
+            [el.dataset.component]: el
+        };
+    }, {});
 
 Vue.prototype.$mount =
     function(el, hydrating)
     {
-        let compHtml = "";
+        let compHtml = null;
+        const templateOverride = this.$props.templateOverride;
 
         if (this.$props.templateOverride)
         {
             compHtml = document.querySelector(templateOverride).innerHTML;
         }
-        else if (App.componentsOverride[this.$options._componentTag])
+        else if (overriddenComponents && overriddenComponents[this.$options._componentTag])
         {
-            compHtml = document.querySelector([`data-component=${this.$options._componentTag}`]).innerHTML;
+            compHtml = overriddenComponents[this.$options._componentTag].innerHTML;
         }
 
         if (compHtml)
@@ -60,17 +71,17 @@ Vue.component("coupon", () => import("./app/components/basket/Coupon.vue"));
 Vue.component("basket-list", () => import("./app/components/basket/list/BasketList.vue"));
 
 Vue.component("step-by-step-navigation", () => import("./app/components/category/StepByStepNavigation.vue"));
-
 Vue.component("google-maps-widget", () => import("./app/components/common/GoogleMaps.vue"));
-
-Vue.component("lazy-img", () => import("./app/components/common/LazyImg.vue"));
-
+import LazyImg from "./app/components/common/LazyImg.vue";
+Vue.component("lazy-img", LazyImg);
+import Intersect from "./app/components/common/Intersect.vue";
+Vue.component("intersect", Intersect);
 Vue.component("tab-list", () => import("./app/components/common/TabList.vue"));
-
 Vue.component("last-seen-item-list", () => import("./app/components/containers/LastSeenItemList.vue"));
 
 Vue.component("change-email-form", () => import("./app/components/customer/ChangeEmailForm.vue"));
-Vue.component("recaptcha", () => import("./app/components/customer/ReCaptcha.vue"));
+import ReCaptcha from "./app/components/customer/ReCaptcha.vue";
+Vue.component("recaptcha", ReCaptcha);
 Vue.component("registration", () => import("./app/components/customer/Registration.vue"));
 Vue.component("reset-password-form", () => import("./app/components/customer/ResetPasswordForm.vue"));
 Vue.component("forgot-password-modal", () => import("./app/components/customer/login/ForgotPassword.vue"));
@@ -78,7 +89,8 @@ Vue.component("guest-login", () => import("./app/components/customer/login/Guest
 Vue.component("login", () => import("./app/components/customer/login/Login.vue"));
 // legacy non-shopbuilder component
 Vue.component("login-view", () => import("./app/components/customer/login/LoginView.vue"));
-Vue.component("user-login-handler", () => import("./app/components/customer/login/UserLoginHandler.vue"));
+import UserLoginHandler from "./app/components/customer/login/UserLoginHandler.vue";
+Vue.component("user-login-handler", UserLoginHandler);
 
 Vue.component("item-bundle", () => import("./app/components/item/ItemBundle.vue"));
 Vue.component("order-property-value", () => import("./app/components/item/OrderPropertyValue.vue"));
@@ -87,9 +99,9 @@ Vue.component("quantity-input", () => import("./app/components/item/QuantityInpu
 Vue.component("tag-list", () => import("./app/components/item/TagList.vue"));
 
 Vue.component("category-item", () => import("./app/components/itemList/CategoryItem.vue"));
-
-Vue.component("item-search", () => import("./app/components/itemList/ItemSearch.vue"));
-
+import ItemSearch from "./app/components/itemList/ItemSearch.vue";
+Vue.component("item-search", ItemSearch);
+Vue.component("search-suggestion-items", () => import("./app/components/itemList/SearchSuggestionItems.vue"));
 Vue.component("item-filter-list", () => import("./app/components/itemList/filter/ItemFilterList.vue"));
 Vue.component("item-filter-tag-list", () => import("./app/components/itemList/filter/ItemFilterTagList.vue"));
 
@@ -103,13 +115,18 @@ Vue.component("order-return", () => import("./app/components/orderReturn/OrderRe
 Vue.component("cookie-bar", () => import("./app/components/pageDesign/CookieBar.vue"));
 Vue.component("privacy-settings", () => import("./app/components/pageDesign/PrivacySettings.vue"));
 Vue.component("carousel", () => import("./app/components/pageDesign/Carousel.vue"));
-Vue.component("mobile-navigation", () => import("./app/components/pageDesign/MobileNavigation.vue"));
-Vue.component("notifications", () => import("./app/components/pageDesign/Notifications.vue"));
+import Icon from "./app/components/pageDesign/Icon.vue";
+Vue.component("icon", Icon);
+import MobileNavigation from "./app/components/pageDesign/MobileNavigation.vue";
+Vue.component("mobile-navigation", MobileNavigation);
+import Notifications from "./app/components/pageDesign/Notifications.vue";
+Vue.component("notifications", Notifications);
 Vue.component("popper", () => import("./app/components/pageDesign/Popper.vue"));
 Vue.component("shipping-country-select", () => import("./app/components/pageDesign/ShippingCountrySelect.vue"));
 
 Vue.component("wish-list", () => import("./app/components/wishList/WishList.vue"));
-Vue.component("wish-list-count", () => import("./app/components/wishList/WishListCount.vue"));
+import WishListCount from "./app/components/wishList/WishListCount.vue";
+Vue.component("wish-list-count", WishListCount);
 
 import LazyLoad from "./app/components/common/LazyLoad.vue";
 Vue.component("lazy-load", LazyLoad);

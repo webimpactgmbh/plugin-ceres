@@ -20,6 +20,7 @@
                         <label :for="'email-input-id_' + _uid">{{ $translate("Ceres::Template.newsletterEmail") }} *</label>
                         <input type="email" autocomplete="email" :id="'email-input-id_' + _uid" v-model="email">
                     </div>
+                    <input class="honey" type="text" name="username" autocomplete="off" tabindex="-1" v-model="honeypot">
                 </div>
             </div>
 
@@ -34,7 +35,7 @@
             <div class="col-xs-12 mt-3">
                 <div class="input-group-btn">
                     <button type="button" class="btn btn-block btn-primary btn-appearance" @click="validateData" :disabled="isDisabled" :class="buttonSizeClass">
-                        <i v-waiting-animation="isDisabled" class="fa fa-paper-plane-o" aria-hidden="true"></i>
+                        <icon icon="paper-plane-o" :loading="isDisabled"></icon>
                         {{ $translate("Ceres::Template.newsletterSubscribeButtonLabel") }}
                     </button>
                 </div>
@@ -78,7 +79,8 @@ export default {
             lastName: "",
             email: "",
             isDisabled: false,
-            privacyPolicyValue: false
+            privacyPolicyValue: false,
+            honeypot: ""
         };
     },
 
@@ -114,7 +116,7 @@ export default {
 
         save()
         {
-            ApiService.post("/rest/io/customer/newsletter", { email: this.email, firstName: this.firstName, lastName: this.lastName, emailFolder: this.emailFolder })
+            ApiService.post("/rest/io/customer/newsletter", { email: this.email, firstName: this.firstName, lastName: this.lastName, emailFolder: this.emailFolder, honeypot: this.honeypot })
                 .done(() =>
                 {
                     NotificationService.success(
