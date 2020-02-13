@@ -1,22 +1,47 @@
 <template>
-    <div class="cmp">
-        <p v-if="isCheckoutReadonly && !!$translate('Ceres::Template.couponReadonlyInfoText')">
-            {{ couponReadonlyInfoText }}
-        </p>
-        <div :class="{'input-group':true, 'component-loading':isCheckoutReadonly, 'isLoading':isCheckoutReadonly}">
-            <input type="text" class="form-control" v-model="couponCode" :placeholder="$translate('Ceres::Template.couponEnterCoupon')" @keyup.enter="redeemCode()" :disabled="disabled || isCheckoutReadonly">
-            <span class="input-group-btn">
-                <button class="btn btn-medium btn-primary btn-appearance" type="button" @click="redeemCode()" :disabled="waiting || isCheckoutReadonly" v-if="!disabled">
-                    <icon icon="gift" :loading="waiting"></icon>
-                    {{ $translate("Ceres::Template.couponRedeem") }}
-                </button>
-                <button class="btn btn-medium btn-danger" type="button" @click="removeCode()" :disabled="waiting || isCheckoutReadonly" v-else>
-                    <icon icon="trash" :loading="waiting"></icon>
-                    {{ $translate("Ceres::Template.couponRemove") }}
-                </button>
-            </span>
-        </div>
+  <div class="cmp">
+    <p v-if="isCheckoutReadonly && !!$translate('Ceres::Template.couponReadonlyInfoText')">
+      {{ couponReadonlyInfoText }}
+    </p>
+    <div :class="{'input-group':true, 'component-loading':isCheckoutReadonly, 'isLoading':isCheckoutReadonly}">
+      <input
+        v-model="couponCode"
+        type="text"
+        class="form-control"
+        :placeholder="$translate('Ceres::Template.couponEnterCoupon')"
+        :disabled="disabled || isCheckoutReadonly"
+        @keyup.enter="redeemCode()"
+      >
+      <span class="input-group-btn">
+        <button
+          v-if="!disabled"
+          class="btn btn-medium btn-primary btn-appearance"
+          type="button"
+          :disabled="waiting || isCheckoutReadonly"
+          @click="redeemCode()"
+        >
+          <icon
+            icon="gift"
+            :loading="waiting"
+          />
+          {{ $translate("Ceres::Template.couponRedeem") }}
+        </button>
+        <button
+          v-else
+          class="btn btn-medium btn-danger"
+          type="button"
+          :disabled="waiting || isCheckoutReadonly"
+          @click="removeCode()"
+        >
+          <icon
+            icon="trash"
+            :loading="waiting"
+          />
+          {{ $translate("Ceres::Template.couponRemove") }}
+        </button>
+      </span>
     </div>
+  </div>
 </template>
 
 <script>
@@ -93,7 +118,7 @@ export default {
                 this.waiting = true;
 
                 this.$store.dispatch("redeemCouponCode", this.couponCode).then(
-                    response =>
+                    () =>
                     {
                         this.waiting = false;
                         NotificationService.success(
@@ -119,14 +144,14 @@ export default {
             this.waiting = true;
 
             this.$store.dispatch("removeCouponCode", this.couponCode).then(
-                response =>
+                () =>
                 {
                     this.waiting = false;
                     NotificationService.success(
                         TranslationService.translate("Ceres::Template.couponRemoveSuccess")
                     ).closeAfter(10000);
                 },
-                error =>
+                () =>
                 {
                     this.waiting = false;
                     NotificationService.error(

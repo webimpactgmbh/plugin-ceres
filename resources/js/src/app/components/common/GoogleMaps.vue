@@ -1,9 +1,13 @@
 <template>
-    <div :class="aspectClass" class="maps-component position-relative" ref="googleMapsContainer">
-        <div v-if="scriptBlocked">
-            <slot></slot>
-        </div>
+  <div
+    ref="googleMapsContainer"
+    :class="aspectClass"
+    class="maps-component position-relative"
+  >
+    <div v-if="scriptBlocked">
+      <slot />
     </div>
+  </div>
 </template>
 
 <script>

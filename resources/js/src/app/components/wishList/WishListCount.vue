@@ -1,8 +1,16 @@
 <template>
-    <a class="nav-link" :href="urlWishList" rel="nofollow">
-        <span class="badge-right mr-1 d-none d-sm-inline">{{ wishListCount }}</span>
-        <i class="fa" :class="{'fa-heart-o': !wishListCount, 'fa-heart': wishListCount}" aria-hidden="true"></i>
-    </a>
+  <a
+    class="nav-link"
+    :href="urlWishList"
+    rel="nofollow"
+  >
+    <span class="badge-right mr-1 d-none d-sm-inline">{{ wishListCount }}</span>
+    <i
+      class="fa"
+      :class="{'fa-heart-o': !wishListCount, 'fa-heart': wishListCount}"
+      aria-hidden="true"
+    />
+  </a>
 </template>
 
 <script>

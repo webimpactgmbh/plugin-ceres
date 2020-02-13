@@ -1,13 +1,19 @@
 <template>
-    <select :value="addressData.gender" class="custom-select" @change="emitInputEvent($event.target.value)" data-autofocus>
-        <option
-            :value="salutation.key"
-            :selected="addressData.gender === salutation.key && checkGenderCompany(salutation.key)"
-            v-for="(salutation, index) in currentSalutation"
-            :key="index">
-            {{ salutation.name }}
-        </option>
-    </select>
+  <select
+    :value="addressData.gender"
+    class="custom-select"
+    data-autofocus
+    @change="emitInputEvent($event.target.value)"
+  >
+    <option
+      v-for="(salutation, index) in currentSalutation"
+      :key="index"
+      :value="salutation.key"
+      :selected="addressData.gender === salutation.key && checkGenderCompany(salutation.key)"
+    >
+      {{ salutation.name }}
+    </option>
+  </select>
 </template>
 
 <script>
@@ -15,7 +21,7 @@ import { isNullOrUndefined } from "../../helper/utils";
 
 export default {
 
-    name: "salutation-select",
+    name: "SalutationSelect",
 
     props:
     {
@@ -89,6 +95,23 @@ export default {
         }
     },
 
+    watch:
+    {
+        currentSalutation(newVal, oldVal)
+        {
+            if (newVal !== oldVal)
+            {
+                const selectedSalutation = this.addressData.gender;
+
+                // cleanse the current selected salutation, if it's not longer included in the choice
+                if (!newVal.map(salutation => salutation.key).includes(selectedSalutation))
+                {
+                    this.emitInputEvent(newVal[0].key);
+                }
+            }
+        }
+    },
+
     /**
      * Get the shipping countries
      */
@@ -125,23 +148,6 @@ export default {
                 return (this.addressData.name1 !== null) || (this.addressData.name1 !== "");
             }
             return true;
-        }
-    },
-
-    watch:
-    {
-        currentSalutation(newVal, oldVal)
-        {
-            if (newVal !== oldVal)
-            {
-                const selectedSalutation = this.addressData.gender;
-
-                // cleanse the current selected salutation, if it's not longer included in the choice
-                if (!newVal.map(salutation => salutation.key).includes(selectedSalutation))
-                {
-                    this.emitInputEvent(newVal[0].key);
-                }
-            }
         }
     }
 }

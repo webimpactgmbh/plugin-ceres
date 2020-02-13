@@ -1,8 +1,8 @@
 <script>
-    const FEATURE_ENABLED = 'IntersectionObserver' in window;
+const FEATURE_ENABLED = "IntersectionObserver" in window;
 
-    export default {
-        props:
+export default {
+    props:
         {
             threshold: {
                 type: Number,
@@ -14,74 +14,77 @@
             }
         },
 
-        data()
-        {
-            return {
-                isVisible: false,
-                mayObserve: false
-            }
-        },
+    data()
+    {
+        return {
+            isVisible: false,
+            mayObserve: false
+        }
+    },
 
-        created()
+    created()
+    {
+        if (!FEATURE_ENABLED)
         {
-            if(!FEATURE_ENABLED)
+            this.isVisible = true;
+            return;
+        }
+
+        this.observer = new IntersectionObserver((entries) =>
+        {
+            const quasiIntersecting = Math.abs(entries[0].intersectionRatio - this.threshold) <= 0.05;
+
+            if (entries[0].intersectionRatio >= this.threshold || quasiIntersecting)
             {
+                this.observer.unobserve(this.$el);
                 this.isVisible = true;
-                return;
             }
+        }, {
+            root: null,
+            rootMargin: this.margin,
+            threshold: this.threshold
+        });
+    },
 
-            this.observer = new IntersectionObserver((entries) => {
-                let quasiIntersecting = Math.abs(entries[0].intersectionRatio - this.threshold) <= 0.05;
-                if(entries[0].intersectionRatio >= this.threshold || quasiIntersecting)
-                {
-                    this.observer.unobserve(this.$el);
-                    this.isVisible = true;
-                }
-            }, {
-                root: null,
-                rootMargin: this.margin,
-                threshold: this.threshold
+    mounted()
+    {
+        if (FEATURE_ENABLED)
+        {
+            this.$nextTick(() =>
+            {
+                this.mayObserve = true;
             });
-        },
+        }
 
-        mounted()
+    },
+
+    updated()
+    {
+        if (FEATURE_ENABLED && this.mayObserve)
         {
-            if(FEATURE_ENABLED)
-            {
-                this.$nextTick(() => {
-                    this.mayObserve = true;
-                });
-            }
+            this.mayObserve = false;
+            this.observer.observe(this.$el);
+        }
+    },
 
-        },
-
-        updated()
+    destroyed()
+    {
+        if (FEATURE_ENABLED)
         {
-            if(FEATURE_ENABLED && this.mayObserve)
-            {
-                this.mayObserve = false;
-                this.observer.observe(this.$el);
-            }
-        },
+            this.observer.disconnect();
+        }
+    },
 
-        destroyed()
+    render()
+    {
+        if ( this.isVisible)
         {
-            if(FEATURE_ENABLED)
-            {
-                this.observer.disconnect();
-            }
-        },
-
-        render()
+            return this.$slots.default ? this.$slots.default : null;
+        }
+        else
         {
-            if( this.isVisible)
-            {
-                return this.$slots.default ? this.$slots.default : null;
-            }
-            else
-            {
-                return this.$slots.loading ? this.$slots.loading : null;
-            }
-        },
+            return this.$slots.loading ? this.$slots.loading : null;
+        }
     }
+}
 </script>

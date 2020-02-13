@@ -1,18 +1,33 @@
 <template>
-    <div v-if="graduatedPrices[0]">
-        <b>{{ $translate("Ceres::Template.singleItemGraduatedPrices") }}:</b>
-        <table class="graduated-prices-table text-muted">
-            <tr v-for="(price, index) in graduatedPrices">
-                <td :class="paddingClasses" :style="paddingInlineStyles">{{ $translate("Ceres::Template.singleItemMinimumQuantity") }} {{ price.minimumOrderQuantity }}</td>
-                <td :class="paddingClasses" :style="paddingInlineStyles">
-                    {{ price.unitPrice.formatted }}
-                    <transition name="fade">
-                        <i class="fa fa-lg fa-check-circle-o ml-1 text-appearance" v-if="index === activeGraduationIndex" aria-hidden="true"></i>
-                    </transition>
-                </td>
-            </tr>
-        </table>
-    </div>
+  <div v-if="graduatedPrices[0]">
+    <b>{{ $translate("Ceres::Template.singleItemGraduatedPrices") }}:</b>
+    <table class="graduated-prices-table text-muted">
+      <tr
+        v-for="(price, index) in graduatedPrices"
+        :key="index"
+      >
+        <td
+          :class="paddingClasses"
+          :style="paddingInlineStyles"
+        >
+          {{ $translate("Ceres::Template.singleItemMinimumQuantity") }} {{ price.minimumOrderQuantity }}
+        </td>
+        <td
+          :class="paddingClasses"
+          :style="paddingInlineStyles"
+        >
+          {{ price.unitPrice.formatted }}
+          <transition name="fade">
+            <i
+              v-if="index === activeGraduationIndex"
+              class="fa fa-lg fa-check-circle-o ml-1 text-appearance"
+              aria-hidden="true"
+            />
+          </transition>
+        </td>
+      </tr>
+    </table>
+  </div>
 </template>
 
 <script>

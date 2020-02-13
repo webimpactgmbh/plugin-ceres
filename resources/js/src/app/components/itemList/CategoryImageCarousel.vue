@@ -1,16 +1,59 @@
 <template>
-    <a :id="'owl-carousel-' + _uid" v-if="$_enableCarousel" class="owl-carousel owl-theme" :href="itemUrl">
-        <div v-for="(imageUrl, index) in imageUrls" :key="index">
-            <lazy-img v-if="index === 0 && !disableLazyLoad" class="img-fluid" ref="itemLazyImage" :image-url="imageUrl.url" :alt="getAltText(imageUrl)" :title="getImageName(imageUrl)"></lazy-img>
-            <img v-else-if="index !== 0 && !disableLazyLoad" class="img-fluid owl-lazy" :data-src="imageUrl.url" :alt="getAltText(imageUrl)" :title="getImageName(imageUrl)">
-            <img v-else class="img-fluid" :src="imageUrl.url" :alt="getAltText(imageUrl)" :title="getAltText(imageUrl)">
-        </div>
-    </a>
+  <a
+    v-if="$_enableCarousel"
+    :id="'owl-carousel-' + _uid"
+    class="owl-carousel owl-theme"
+    :href="itemUrl"
+  >
+    <div
+      v-for="(imageUrl, index) in imageUrls"
+      :key="index"
+    >
+      <lazy-img
+        v-if="index === 0 && !disableLazyLoad"
+        ref="itemLazyImage"
+        class="img-fluid"
+        :image-url="imageUrl.url"
+        :alt="getAltText(imageUrl)"
+        :title="getImageName(imageUrl)"
+      />
+      <img
+        v-else-if="index !== 0 && !disableLazyLoad"
+        class="img-fluid owl-lazy"
+        :data-src="imageUrl.url"
+        :alt="getAltText(imageUrl)"
+        :title="getImageName(imageUrl)"
+      >
+      <img
+        v-else
+        class="img-fluid"
+        :src="imageUrl.url"
+        :alt="getAltText(imageUrl)"
+        :title="getAltText(imageUrl)"
+      >
+    </div>
+  </a>
 
-    <a v-else :href="itemUrl">
-        <lazy-img class="img-fluid" v-if="!disableLazyLoad" ref="itemLazyImage" :image-url="imageUrls | itemImage" :alt="getAltText(imageUrls[0])" :title="getImageName(imageUrls[0])"></lazy-img>
-        <img v-else class="img-fluid" :src="imageUrls | itemImage" :alt="getAltText(imageUrls[0])" :title="getImageName(imageUrls[0])">
-    </a>
+  <a
+    v-else
+    :href="itemUrl"
+  >
+    <lazy-img
+      v-if="!disableLazyLoad"
+      ref="itemLazyImage"
+      class="img-fluid"
+      :image-url="imageUrls | itemImage"
+      :alt="getAltText(imageUrls[0])"
+      :title="getImageName(imageUrls[0])"
+    />
+    <img
+      v-else
+      class="img-fluid"
+      :src="imageUrls | itemImage"
+      :alt="getAltText(imageUrls[0])"
+      :title="getImageName(imageUrls[0])"
+    >
+  </a>
 </template>
 
 <script>
@@ -18,7 +61,7 @@ import "owl.carousel";
 
 export default {
 
-    name: "category-image-carousel",
+    name: "CategoryImageCarousel",
 
     props: {
         imageUrlsData:
@@ -127,7 +170,7 @@ export default {
                     `<i id="owl-nav-text-left-${this._uid}" class='fa fa-chevron-left' aria-hidden='true'></i>`,
                     `<i id="owl-nav-text-right-${this._uid}" class='fa fa-chevron-right' aria-hidden='true'></i>`
                 ],
-                onInitialized: event =>
+                onInitialized: () =>
                 {
                     if (this.showNav)
                     {

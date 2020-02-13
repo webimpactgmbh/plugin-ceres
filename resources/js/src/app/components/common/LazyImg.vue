@@ -1,8 +1,14 @@
 <template>
-    <img v-if="!isBackgroundImage" :data-src="imageUrl">
-    <div v-else :data-background-image="imageUrl">
-        <slot></slot>
-    </div>
+  <img
+    v-if="!isBackgroundImage"
+    :data-src="imageUrl"
+  >
+  <div
+    v-else
+    :data-background-image="imageUrl"
+  >
+    <slot />
+  </div>
 </template>
 
 <script>
@@ -12,14 +18,6 @@ export default {
     props: {
         imageUrl: String,
         isBackgroundImage: Boolean
-    },
-
-    mounted()
-    {
-        this.$nextTick(() =>
-        {
-            lozad(this.$el).observe();
-        });
     },
 
     watch:
@@ -32,6 +30,14 @@ export default {
                 lozad(this.$el).triggerLoad(this.$el);
             });
         }
+    },
+
+    mounted()
+    {
+        this.$nextTick(() =>
+        {
+            lozad(this.$el).observe();
+        });
     }
 }
 </script>

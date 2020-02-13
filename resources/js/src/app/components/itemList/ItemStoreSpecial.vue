@@ -1,12 +1,22 @@
 <template>
-    <div class="special-tags p-2" v-show="label.length || bundleType === 'bundle'">
-        <span v-if="label.length" class="badge" :class="tagClass">
-            {{ label }}
-        </span>
-        <span v-else class="badge badge-bundle bg-info">
-            {{ $translate("Ceres::Template.itemBundle") }}
-        </span>
-    </div>
+  <div
+    v-show="label.length || bundleType === 'bundle'"
+    class="special-tags p-2"
+  >
+    <span
+      v-if="label.length"
+      class="badge"
+      :class="tagClass"
+    >
+      {{ label }}
+    </span>
+    <span
+      v-else
+      class="badge badge-bundle bg-info"
+    >
+      {{ $translate("Ceres::Template.itemBundle") }}
+    </span>
+  </div>
 </template>
 
 <script>
@@ -14,7 +24,7 @@ import { isNullOrUndefined, isDefined } from "../../helper/utils";
 
 export default {
 
-    name: "item-store-special",
+    name: "ItemStoreSpecial",
 
     props: [
         "storeSpecial",
@@ -44,6 +54,14 @@ export default {
                 3: this.$translate("Ceres::Template.storeSpecialTop")
             }
         };
+    },
+
+    watch:
+    {
+        storeSpecial()
+        {
+            this.initializeStoreSpecial();
+        }
     },
 
     created()
@@ -102,14 +120,6 @@ export default {
             }
 
             return "";
-        }
-    },
-
-    watch:
-    {
-        storeSpecial()
-        {
-            this.initializeStoreSpecial();
         }
     }
 }

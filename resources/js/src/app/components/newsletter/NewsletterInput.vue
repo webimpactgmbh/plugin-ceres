@@ -1,48 +1,104 @@
 <template>
-    <form :id="'newsletter-input-form_' + _uid" method="post" @submit.prevent="validateData">
-        <div class="row">
-            <div class="col-xs-6" v-if="showNameInputs">
-                <div class="input-unit">
-                    <label :for="'first-name-input_' + _uid">{{ $translate("Ceres::Template.newsletterFirstName") }}</label>
-                    <input type="text" :id="'first-name-input_' + _uid" v-model="firstName">
-                </div>
-            </div>
-            <div class="col-xs-6 pl-0" v-if="showNameInputs">
-                <div class="input-unit">
-                    <label :for="'last-name-input_' + _uid">{{ $translate("Ceres::Template.newsletterLastName") }}</label>
-                    <input type="text" :id="'last-name-input_' + _uid" v-model="lastName">
-                </div>
-            </div>
-
-            <div class="col-xs-12">
-                <div class="input-group">
-                    <div class="input-unit" data-validate="mail">
-                        <label :for="'email-input-id_' + _uid">{{ $translate("Ceres::Template.newsletterEmail") }} *</label>
-                        <input type="email" autocomplete="email" :id="'email-input-id_' + _uid" v-model="email">
-                    </div>
-                    <input class="honey" type="text" name="username" autocomplete="off" tabindex="-1" v-model="honeypot">
-                </div>
-            </div>
-
-            <div class="col-xs-12" v-if="showPrivacyPolicyCheckbox">
-                <div class="form-check small" data-validate>
-                    <input type="checkbox" class="form-check-input" :id="'privacy-policy-accept-id_' + _uid" name="privacy-policy-accept" v-model="privacyPolicyValue">
-                    <label :for="'privacy-policy-accept-id_' + _uid" class="form-check-label" v-html="privacyPolicyText">
-                    </label>
-                </div>
-            </div>
-
-            <div class="col-xs-12 mt-3">
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-block btn-primary btn-appearance" @click="validateData" :disabled="isDisabled" :class="buttonSizeClass">
-                        <icon icon="paper-plane-o" :loading="isDisabled"></icon>
-                        {{ $translate("Ceres::Template.newsletterSubscribeButtonLabel") }}
-                    </button>
-                </div>
-            </div>
-
+  <form
+    :id="'newsletter-input-form_' + _uid"
+    method="post"
+    @submit.prevent="validateData"
+  >
+    <div class="row">
+      <div
+        v-if="showNameInputs"
+        class="col-xs-6"
+      >
+        <div class="input-unit">
+          <label :for="'first-name-input_' + _uid">{{ $translate("Ceres::Template.newsletterFirstName") }}</label>
+          <input
+            :id="'first-name-input_' + _uid"
+            v-model="firstName"
+            type="text"
+          >
         </div>
-    </form>
+      </div>
+      <div
+        v-if="showNameInputs"
+        class="col-xs-6 pl-0"
+      >
+        <div class="input-unit">
+          <label :for="'last-name-input_' + _uid">{{ $translate("Ceres::Template.newsletterLastName") }}</label>
+          <input
+            :id="'last-name-input_' + _uid"
+            v-model="lastName"
+            type="text"
+          >
+        </div>
+      </div>
+
+      <div class="col-xs-12">
+        <div class="input-group">
+          <div
+            class="input-unit"
+            data-validate="mail"
+          >
+            <label :for="'email-input-id_' + _uid">{{ $translate("Ceres::Template.newsletterEmail") }} *</label>
+            <input
+              :id="'email-input-id_' + _uid"
+              v-model="email"
+              type="email"
+              autocomplete="email"
+            >
+          </div>
+          <input
+            v-model="honeypot"
+            class="honey"
+            type="text"
+            name="username"
+            autocomplete="off"
+            tabindex="-1"
+          >
+        </div>
+      </div>
+
+      <div
+        v-if="showPrivacyPolicyCheckbox"
+        class="col-xs-12"
+      >
+        <div
+          class="form-check small"
+          data-validate
+        >
+          <input
+            :id="'privacy-policy-accept-id_' + _uid"
+            v-model="privacyPolicyValue"
+            type="checkbox"
+            class="form-check-input"
+            name="privacy-policy-accept"
+          >
+          <label
+            :for="'privacy-policy-accept-id_' + _uid"
+            class="form-check-label"
+            v-html="privacyPolicyText"
+          />
+        </div>
+      </div>
+
+      <div class="col-xs-12 mt-3">
+        <div class="input-group-btn">
+          <button
+            type="button"
+            class="btn btn-block btn-primary btn-appearance"
+            :disabled="isDisabled"
+            :class="buttonSizeClass"
+            @click="validateData"
+          >
+            <icon
+              icon="paper-plane-o"
+              :loading="isDisabled"
+            />
+            {{ $translate("Ceres::Template.newsletterSubscribeButtonLabel") }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
 </template>
 
 <script>
@@ -89,10 +145,10 @@ export default {
         privacyPolicyText()
         {
             const link = "<a href=\"" + App.urls.privacyPolicy + "\" target=\"_blank\"><span class=\"text-primary text-appearance\">"
-                + this.$translate("Ceres::Template.checkoutPrivacyPolicy", {"hyphen": "&shy;"})
+                + this.$translate("Ceres::Template.checkoutPrivacyPolicy", { "hyphen": "&shy;" })
                 + "</span></a>";
 
-            return this.$translate("Ceres::Template.newsletterAcceptPrivacyPolicy", {"policy": link});
+            return this.$translate("Ceres::Template.newsletterAcceptPrivacyPolicy", { "policy": link });
         }
     },
 

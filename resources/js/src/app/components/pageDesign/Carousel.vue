@@ -1,15 +1,30 @@
 <template>
-    <div class="row">
-        <div class="col-12 col-lg-12" v-if="itemCount > itemsPerPage">
-            <div class="list-item-carousel owl-carousel owl-theme owl-single-item" ref="carouselContainer">
-                <slot-component v-for="(item, index) in $slots.items" :key="index" :vnode="item" />
-            </div>
-        </div>
-
-        <div :class="columnWidths" v-else v-for="item in $slots.items">
-            <slot-component :vnode="item"/>
-        </div>
+  <div class="row">
+    <div
+      v-if="itemCount > itemsPerPage"
+      class="col-12 col-lg-12"
+    >
+      <div
+        ref="carouselContainer"
+        class="list-item-carousel owl-carousel owl-theme owl-single-item"
+      >
+        <slot-component
+          v-for="(item, index) in $slots.items"
+          :key="index"
+          :vnode="item"
+        />
+      </div>
     </div>
+
+    <div
+      v-for="(item, index) in $slots.items"
+      v-else
+      :key="index"
+      :class="columnWidths"
+    >
+      <slot-component :vnode="item" />
+    </div>
+  </div>
 </template>
 
 <script>

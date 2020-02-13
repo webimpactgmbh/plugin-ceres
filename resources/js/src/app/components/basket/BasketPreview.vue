@@ -1,93 +1,124 @@
 <template>
-    <div class="basket-preview-wrapper h-100" :class="{ 'empty': !basketItems.length, 'open-hover': hover, 'open-right': !hover }">
-        <div class="position-relative h-100">
-            <div class="basket-preview d-flex flex-column flex-nowrap bg-white shadow w-100">
+  <div
+    class="basket-preview-wrapper h-100"
+    :class="{ 'empty': !basketItems.length, 'open-hover': hover, 'open-right': !hover }"
+  >
+    <div class="position-relative h-100">
+      <div class="basket-preview d-flex flex-column flex-nowrap bg-white shadow w-100">
+        <header class="basket-preview-header border-bottom p-3">
+          <span class="h3 mb-0">{{ $translate("Ceres::Template.basketPreview") }}</span>
+          <button
+            v-toggle-basket-preview
+            type="button"
+            class="close"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </header>
 
-                <header class="basket-preview-header border-bottom p-3">
-                    <span class="h3 mb-0">{{ $translate("Ceres::Template.basketPreview") }}</span>
-                    <button v-toggle-basket-preview type="button" class="close" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </header>
-
-                <div v-if="basketNotifications.length > 0">
-                    <div class="w-100 alert alert-danger" v-for="notification in basketNotifications" :key="notification.id">
-                        <div>{{ notification.message }}</div>
-                    </div>
-                </div>
-
-                <div class="basket-preview-content d-flex flex-fill">
-                    <basket-list class="item-list d-flex flex-fill flex-nowrap flex-column overflow-auto px-3" :is-preview="true">
-                        <template #before-basket-item>
-                            <slot name="before-basket-item"></slot>
-                        </template>
-                        <template #loading-animation>
-                            <slot name="loading-animation"></slot>
-                        </template>
-                        <template #after-basket-item>
-                            <slot name="after-basket-item"></slot>
-                        </template>
-                    </basket-list>
-
-                    <div class="totals d-flex flex-nowrap flex-column px-3 pt-3">
-
-                        <shipping-country-select
-                                v-if="showShippingCountrySelect"
-                                :basket-select="true"
-                                :open-basket-preview="true">
-                        </shipping-country-select>
-                        <hr>
-
-                        <slot name="before-basket-totals"></slot>
-
-                        <basket-totals>
-                            <template #before-item-sum>
-                                <slot name="before-item-sum"></slot>
-                            </template>
-                            <template #after-item-sum>
-                                <slot name="after-item-sum"></slot>
-                            </template>
-                            <template #before-shipping-costs>
-                                <slot name="before-shipping-costs"></slot>
-                            </template>
-                            <template #after-shipping-costs>
-                                <slot name="after-shipping-costs"></slot>
-                            </template>
-                            <template #before-total-sum>
-                                <slot name="before-total-sum"></slot>
-                            </template>
-                            <template #before-vat>
-                                <slot name="before-vat"></slot>
-                            </template>
-                            <template #after-vat>
-                                <slot name="after-vat"></slot>
-                            </template>
-                            <template #after-total-sum>
-                                <slot name="after-total-sum"></slot>
-                            </template>
-                        </basket-totals>
-
-                        <slot name="after-basket-totals"></slot>
-
-                        <div class="basket-preview-footer d-flex pb-3">
-                            <a v-waiting-animation-infinite :href="basketUrl" rel="nofollow" class="btn btn-outline-primary btn-block" :title="$translate('Ceres::Template.basket')">
-                                <i class="fa fa-shopping-cart"></i>
-                                {{ $translate("Ceres::Template.basket") }}
-                            </a>
-
-                            <slot name="before-checkout-button"></slot>
-                            <a v-waiting-animation-infinite :href="checkoutUrl" rel="nofollow" class="btn btn-primary btn-block" :title="$translate('Ceres::Template.basketCheckout')">
-                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                                {{ $translate("Ceres::Template.basketCheckout") }}
-                            </a>
-                            <slot name="after-checkout-button"></slot>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div v-if="basketNotifications.length > 0">
+          <div
+            v-for="notification in basketNotifications"
+            :key="notification.id"
+            class="w-100 alert alert-danger"
+          >
+            <div>{{ notification.message }}</div>
+          </div>
         </div>
-        <div class="basket-preview-overlay" v-toggle-basket-preview></div>
+
+        <div class="basket-preview-content d-flex flex-fill">
+          <basket-list
+            class="item-list d-flex flex-fill flex-nowrap flex-column overflow-auto px-3"
+            :is-preview="true"
+          >
+            <template #before-basket-item>
+              <slot name="before-basket-item" />
+            </template>
+            <template #loading-animation>
+              <slot name="loading-animation" />
+            </template>
+            <template #after-basket-item>
+              <slot name="after-basket-item" />
+            </template>
+          </basket-list>
+
+          <div class="totals d-flex flex-nowrap flex-column px-3 pt-3">
+            <shipping-country-select
+              v-if="showShippingCountrySelect"
+              :basket-select="true"
+              :open-basket-preview="true"
+            />
+            <hr>
+
+            <slot name="before-basket-totals" />
+
+            <basket-totals>
+              <template #before-item-sum>
+                <slot name="before-item-sum" />
+              </template>
+              <template #after-item-sum>
+                <slot name="after-item-sum" />
+              </template>
+              <template #before-shipping-costs>
+                <slot name="before-shipping-costs" />
+              </template>
+              <template #after-shipping-costs>
+                <slot name="after-shipping-costs" />
+              </template>
+              <template #before-total-sum>
+                <slot name="before-total-sum" />
+              </template>
+              <template #before-vat>
+                <slot name="before-vat" />
+              </template>
+              <template #after-vat>
+                <slot name="after-vat" />
+              </template>
+              <template #after-total-sum>
+                <slot name="after-total-sum" />
+              </template>
+            </basket-totals>
+
+            <slot name="after-basket-totals" />
+
+            <div class="basket-preview-footer d-flex pb-3">
+              <a
+                v-waiting-animation-infinite
+                :href="basketUrl"
+                rel="nofollow"
+                class="btn btn-outline-primary btn-block"
+                :title="$translate('Ceres::Template.basket')"
+              >
+                <i class="fa fa-shopping-cart" />
+                {{ $translate("Ceres::Template.basket") }}
+              </a>
+
+              <slot name="before-checkout-button" />
+              <a
+                v-waiting-animation-infinite
+                :href="checkoutUrl"
+                rel="nofollow"
+                class="btn btn-primary btn-block"
+                :title="$translate('Ceres::Template.basketCheckout')"
+              >
+                <i
+                  class="fa fa-arrow-right"
+                  aria-hidden="true"
+                />
+                {{ $translate("Ceres::Template.basketCheckout") }}
+              </a>
+              <slot name="after-checkout-button" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    <div
+      v-toggle-basket-preview
+      class="basket-preview-overlay"
+    />
+  </div>
 </template>
 
 <script>
@@ -110,7 +141,7 @@ export default {
     computed: {
         hover()
         {
-            return App.config.basket.previewType === 'hover';
+            return App.config.basket.previewType === "hover";
         },
         showShippingCountrySelect()
         {
@@ -131,12 +162,12 @@ export default {
     {
         if (App.config.basket.addItemToBasketConfirm === "preview")
         {
-            ApiService.listen("AfterBasketItemAdd", data =>
+            ApiService.listen("AfterBasketItemAdd", () =>
             {
                 this.show();
             });
 
-            ApiService.listen("AfterBasketItemUpdate", data =>
+            ApiService.listen("AfterBasketItemUpdate", () =>
             {
                 if (!this.isBasketItemQuantityUpdate)
                 {

@@ -1,24 +1,7 @@
 <script>
 export default {
 
-    name: "tab-item",
-
-    render(createElement)
-    {
-        return createElement(
-            "div",
-            {
-                staticClass: "tab-pane",
-                class: {
-                    active: this.localActive
-                },
-                attrs: {
-                    role: "tabpanel"
-                }
-            },
-            [this.$slots.default]
-        );
-    },
+    name: "TabItem",
 
     props: {
         active:
@@ -51,6 +34,23 @@ export default {
         {
             this.localActive = isActive;
         }
+    },
+
+    render(createElement)
+    {
+        return createElement(
+            "div",
+            {
+                staticClass: "tab-pane",
+                class: {
+                    active: this.localActive
+                },
+                attrs: {
+                    role: "tabpanel"
+                }
+            },
+            [this.$slots.default]
+        );
     }
 }
 </script>

@@ -1,14 +1,27 @@
 <template>
-    <div>
-        <div class="small font-weight-bold mb-3" v-if="showItemBundleItems">
-            <strong>{{ $translate("Ceres::Template.itemBundleContent") }}</strong>
-            <div v-for="item in bundleComponents" :class="paddingClasses" :style="paddingInlineStyles">
-                <span class="text-muted">{{ item.quantity }} x</span>
-                <a class="text-appearance" :href="item.data | itemURL"> {{ getBundleInnerText(item.data) | itemName }} </a>
-            </div>
-        </div>
-        <div v-else><slot></slot></div>
+  <div>
+    <div
+      v-if="showItemBundleItems"
+      class="small font-weight-bold mb-3"
+    >
+      <strong>{{ $translate("Ceres::Template.itemBundleContent") }}</strong>
+      <div
+        v-for="(item, index) in bundleComponents"
+        :key="index"
+        :class="paddingClasses"
+        :style="paddingInlineStyles"
+      >
+        <span class="text-muted">{{ item.quantity }} x</span>
+        <a
+          class="text-appearance"
+          :href="item.data | itemURL"
+        > {{ getBundleInnerText(item.data) | itemName }} </a>
+      </div>
     </div>
+    <div v-else>
+      <slot />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -25,7 +38,7 @@ export default {
         bundleType: String,
         bundleComponents: Array
     },
-    
+
     computed:
     {
         showItemBundleItems()

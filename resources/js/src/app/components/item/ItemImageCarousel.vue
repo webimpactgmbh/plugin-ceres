@@ -1,26 +1,55 @@
 <template>
-    <div itemscope itemtype="http://schema.org/Thing">
-        <div class="single-carousel owl-carousel owl-theme owl-single-item" ref="single">
-            <div v-for="image in singleImages" class="prop-1-1">
-                <a :href="image.url" data-lightbox="single-big-image-gallery">
-                    <lazy-img :image-url="image.url" :alt="getAltText(image)" :title="getImageName(image)"></lazy-img>
-                </a>
-            </div>
-        </div>
-        <div v-if="showThumbs" id="thumb-carousel" class="owl-thumbs owl-carousel owl-theme owl-single-item" ref="thumbs">
-            <div class="prop-1-1" v-for="(imagePreview, index) in carouselImages">
-                <div class="image-container" @click="goTo(index)">
-                    <lazy-img
-                        class="owl-thumb border-appearance"
-                        v-bind:class="{ 'active': currentItem === index}"
-                        :image-url="imagePreview.url"
-                        :alt="getAltText(imagePreview)"
-                        :title="getImageName(imagePreview)">
-                    </lazy-img>
-                </div>
-            </div>
-        </div>
+  <div
+    itemscope
+    itemtype="http://schema.org/Thing"
+  >
+    <div
+      ref="single"
+      class="single-carousel owl-carousel owl-theme owl-single-item"
+    >
+      <div
+        v-for="(image, index) in singleImages"
+        :key="index"
+        class="prop-1-1"
+      >
+        <a
+          :href="image.url"
+          data-lightbox="single-big-image-gallery"
+        >
+          <lazy-img
+            :image-url="image.url"
+            :alt="getAltText(image)"
+            :title="getImageName(image)"
+          />
+        </a>
+      </div>
     </div>
+    <div
+      v-if="showThumbs"
+      id="thumb-carousel"
+      ref="thumbs"
+      class="owl-thumbs owl-carousel owl-theme owl-single-item"
+    >
+      <div
+        v-for="(imagePreview, index) in carouselImages"
+        :key="index"
+        class="prop-1-1"
+      >
+        <div
+          class="image-container"
+          @click="goTo(index)"
+        >
+          <lazy-img
+            class="owl-thumb border-appearance"
+            :class="{ 'active': currentItem === index}"
+            :image-url="imagePreview.url"
+            :alt="getAltText(imagePreview)"
+            :title="getImageName(imagePreview)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

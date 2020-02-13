@@ -1,11 +1,17 @@
 <template>
-    <span v-if="property.type === 'file'">
-        <a :href="property.value | fileUploadPath" target="_blank">
-            <i class="fa fa-external-link" aria-hidden="true"></i>
-            {{ property.value | fileName }}
-        </a>
-    </span>
-    <span v-else>{{ valueLabel }}</span>
+  <span v-if="property.type === 'file'">
+    <a
+      :href="property.value | fileUploadPath"
+      target="_blank"
+    >
+      <i
+        class="fa fa-external-link"
+        aria-hidden="true"
+      />
+      {{ property.value | fileName }}
+    </a>
+  </span>
+  <span v-else>{{ valueLabel }}</span>
 </template>
 
 <script>

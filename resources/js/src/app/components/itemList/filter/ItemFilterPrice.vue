@@ -1,34 +1,49 @@
 <template>
-    <div class="item-filter-price">
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text">{{ currency }}</span>
-            </div>
+  <div class="item-filter-price">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">{{ currency }}</span>
+      </div>
 
-            <input type="number"
-                   class="form-control"
-                   @focus="selectAll($event)"
-                   placeholder="Min"
-                   v-model="priceMin">
-        </div>
-
-        <div class="input-group">
-            <div class="input-group-prepend">
-                <span class="input-group-text">{{ currency }}</span>
-            </div>
-
-            <input type="number"
-                   class="form-control"
-                   @focus="selectAll($event)"
-                   placeholder="Max"
-                   v-model="priceMax">
-        </div>
-
-        <button type="button" class="btn btn-primary btn-appearance" :class="{'disabled': isDisabled}" v-tooltip
-                data-toggle="tooltip" data-placement="top" @click="triggerFilter()" :title="$translate('Ceres::Template.itemApply')">
-            <icon icon="check" :loading="isLoading"></icon>
-        </button>
+      <input
+        v-model="priceMin"
+        type="number"
+        class="form-control"
+        placeholder="Min"
+        @focus="selectAll($event)"
+      >
     </div>
+
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <span class="input-group-text">{{ currency }}</span>
+      </div>
+
+      <input
+        v-model="priceMax"
+        type="number"
+        class="form-control"
+        placeholder="Max"
+        @focus="selectAll($event)"
+      >
+    </div>
+
+    <button
+      v-tooltip
+      type="button"
+      class="btn btn-primary btn-appearance"
+      :class="{'disabled': isDisabled}"
+      data-toggle="tooltip"
+      data-placement="top"
+      :title="$translate('Ceres::Template.itemApply')"
+      @click="triggerFilter()"
+    >
+      <icon
+        icon="check"
+        :loading="isLoading"
+      />
+    </button>
+  </div>
 </template>
 
 <script>

@@ -1,20 +1,48 @@
 <template>
-    <form method="post" @submit.prevent="submit()" class="clearfix">
-        <div class="input-unit mt-3">
-            <label :for="'new-mail' + _uid" class="disabled">{{ $translate("Ceres::Template.myAccountNewEmail") }}</label>
-            <input type="email" name="email" class="form-control" :id="'new-mail' + _uid" :value="newMail" disabled>
-        </div>
+  <form
+    method="post"
+    class="clearfix"
+    @submit.prevent="submit()"
+  >
+    <div class="input-unit mt-3">
+      <label
+        :for="'new-mail' + _uid"
+        class="disabled"
+      >{{ $translate("Ceres::Template.myAccountNewEmail") }}</label>
+      <input
+        :id="'new-mail' + _uid"
+        type="email"
+        name="email"
+        class="form-control"
+        :value="newMail"
+        disabled
+      >
+    </div>
 
-        <div class="input-unit">
-            <label :for="'password' + _uid">{{ $translate("Ceres::Template.loginPassword") }}</label>
-            <input type="password" name="password" autocomplete="current-password" class="form-control" :id="'password' + _uid" v-model="password">
-        </div>
+    <div class="input-unit">
+      <label :for="'password' + _uid">{{ $translate("Ceres::Template.loginPassword") }}</label>
+      <input
+        :id="'password' + _uid"
+        v-model="password"
+        type="password"
+        name="password"
+        autocomplete="current-password"
+        class="form-control"
+      >
+    </div>
 
-        <button type="submit" :disabled="isDisabled" class="btn btn-primary btn-appearance float-right btn-medium btn-xs-max-width">
-            <span>{{ $translate("Ceres::Template.myAccountChangeEmail") }}</span>
-            <icon icon="envelope" :loading="isDisabled"></icon>
-        </button>
-    </form>
+    <button
+      type="submit"
+      :disabled="isDisabled"
+      class="btn btn-primary btn-appearance float-right btn-medium btn-xs-max-width"
+    >
+      <span>{{ $translate("Ceres::Template.myAccountChangeEmail") }}</span>
+      <icon
+        icon="envelope"
+        :loading="isDisabled"
+      />
+    </button>
+  </form>
 </template>
 
 <script>
@@ -57,7 +85,7 @@ export default {
             this.isDisabled = true;
 
             ApiService.put("/rest/io/customer/mail/" + this.contactId, { password: this.password, hash: this.hash })
-                .done(response =>
+                .done(() =>
                 {
                     NotificationService.success(
                         this.$translate("Ceres::Template.myAccountChangeEmailSuccessful")

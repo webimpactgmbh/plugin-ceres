@@ -1,39 +1,74 @@
 <template>
-    <form class="w-100 clearfix" method="post" ref="resetPasswordForm">
-        <div class="input-feedback-container" data-validate="password">
-            <div class="input-unit">
-                <popper v-cloak trigger="focus" placement="bottom" ref="passwordHint">
-                    <template #handle>
-                        <input type="password" name="password" autocomplete="new-password" :id="_uid + 'password_first'" v-model="passwordFirst">
-                    </template>
-                    <template #title>
-                        {{ $translate("Ceres::Template.resetPwPasswordHintTitle") }}
-                    </template>
-                    <template #content>
-                        <ul class="pl-3">
-                            <li>{{ $translate("Ceres::Template.resetPwPasswordHintLength") }}</li>
-                            <li>{{ $translate("Ceres::Template.resetPwPasswordHintDigit") }}</li>
-                            <li>{{ $translate("Ceres::Template.resetPwPasswordHintChar") }}</li>
-                        </ul>
-                    </template>
-                </popper>
+  <form
+    ref="resetPasswordForm"
+    class="w-100 clearfix"
+    method="post"
+  >
+    <div
+      class="input-feedback-container"
+      data-validate="password"
+    >
+      <div class="input-unit">
+        <popper
+          v-cloak
+          ref="passwordHint"
+          trigger="focus"
+          placement="bottom"
+        >
+          <template #handle>
+            <input
+              :id="_uid + 'password_first'"
+              v-model="passwordFirst"
+              type="password"
+              name="password"
+              autocomplete="new-password"
+            >
+          </template>
+          <template #title>
+            {{ $translate("Ceres::Template.resetPwPasswordHintTitle") }}
+          </template>
+          <template #content>
+            <ul class="pl-3">
+              <li>{{ $translate("Ceres::Template.resetPwPasswordHintLength") }}</li>
+              <li>{{ $translate("Ceres::Template.resetPwPasswordHintDigit") }}</li>
+              <li>{{ $translate("Ceres::Template.resetPwPasswordHintChar") }}</li>
+            </ul>
+          </template>
+        </popper>
 
-                <label :for="_uid + 'password_first'">{{ $translate("Ceres::Template.resetPwNewPassword") }}*</label>
-            </div>
-        </div>
+        <label :for="_uid + 'password_first'">{{ $translate("Ceres::Template.resetPwNewPassword") }}*</label>
+      </div>
+    </div>
 
-        <div class="input-feedback-container" data-validate="ref">
-            <div class="input-unit">
-                <input type="password" name="password" autocomplete="new-password" :id="_uid + 'password_second'" v-model="passwordSecond" :data-validate-ref="'#' + _uid + 'password_first'">
-                <label :for="_uid + 'password_second'">{{ $translate("Ceres::Template.resetPwRepeatPassword") }}*</label>
-            </div>
-        </div>
+    <div
+      class="input-feedback-container"
+      data-validate="ref"
+    >
+      <div class="input-unit">
+        <input
+          :id="_uid + 'password_second'"
+          v-model="passwordSecond"
+          type="password"
+          name="password"
+          autocomplete="new-password"
+          :data-validate-ref="'#' + _uid + 'password_first'"
+        >
+        <label :for="_uid + 'password_second'">{{ $translate("Ceres::Template.resetPwRepeatPassword") }}*</label>
+      </div>
+    </div>
 
-        <button @click.prevent="validatePassword" class="btn btn-primary btn-appearance btn-large float-right" :disabled="isDisabled">
-            <span>{{ $translate("Ceres::Template.resetPwSave") }}</span>
-            <i class="fa fa-floppy-o" aria-hidden="true"></i>
-        </button>
-    </form>
+    <button
+      class="btn btn-primary btn-appearance btn-large float-right"
+      :disabled="isDisabled"
+      @click.prevent="validatePassword"
+    >
+      <span>{{ $translate("Ceres::Template.resetPwSave") }}</span>
+      <i
+        class="fa fa-floppy-o"
+        aria-hidden="true"
+      />
+    </button>
+  </form>
 </template>
 
 <script>
@@ -45,7 +80,7 @@ import NotificationService from "../../services/NotificationService";
 
 export default {
 
-    name: "reset-password-form",
+    name: "ResetPasswordForm",
 
     props: {
         contactId:

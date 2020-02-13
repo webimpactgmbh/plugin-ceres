@@ -1,19 +1,30 @@
 <template>
-    <table class="table table-striped table-hover table-sm">
-        <tbody>
-        <template v-for="itemDataAccessor in itemInformation">
-            <tr v-if="isCheckedAndNotEmpty(itemDataAccessor)">
-                <td :class="paddingClasses" :style="paddingInlineStyles">
-                    {{ getTranslation(itemDataAccessor) }}
-                </td>
+  <table class="table table-striped table-hover table-sm">
+    <tbody>
+      <template
+        v-for="(itemDataAccessor, index) in itemInformation"
+      >
+        <tr
+          v-if="isCheckedAndNotEmpty(itemDataAccessor)"
+          :key="index"
+        >
+          <td
+            :class="paddingClasses"
+            :style="paddingInlineStyles"
+          >
+            {{ getTranslation(itemDataAccessor) }}
+          </td>
 
-                <td :class="paddingClasses" :style="paddingInlineStyles">
-                    {{ getFieldValue(itemDataAccessor) }}
-                </td>
-            </tr>
-        </template>
-        </tbody>
-    </table>
+          <td
+            :class="paddingClasses"
+            :style="paddingInlineStyles"
+          >
+            {{ getFieldValue(itemDataAccessor) }}
+          </td>
+        </tr>
+      </template>
+    </tbody>
+  </table>
 </template>
 
 <script>
@@ -140,12 +151,14 @@ export default {
             {
                 switch (format.type)
                 {
-                    case "text":
-                        return value + format.value;
-                    case "filter":
-                        const filterMethod = get(this.$options.filters, format.value);
+                case "text":{
+                    return value + format.value;
+                }
+                case "filter": {
+                    const filterMethod = get(this.$options.filters, format.value);
 
-                        return isDefined(filterMethod) ? filterMethod(value) : value;
+                    return isDefined(filterMethod) ? filterMethod(value) : value;
+                }
                 }
             }
 

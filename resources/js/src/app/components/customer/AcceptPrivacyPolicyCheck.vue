@@ -1,17 +1,29 @@
 <template>
-    <div class="form-check" :class="{ 'error': showError }">
-        <input class="form-check-input" type="checkbox" :id="'privacy-policy-accept' + _uid" :checked="value" @change="onValueChanged($event.target.checked)">
-        <label class="form-check-label" :for="'privacy-policy-accept' + _uid">
-            <span v-html="labelHtml"></span><!--
+  <div
+    class="form-check"
+    :class="{ 'error': showError }"
+  >
+    <input
+      :id="'privacy-policy-accept' + _uid"
+      class="form-check-input"
+      type="checkbox"
+      :checked="value"
+      @change="onValueChanged($event.target.checked)"
+    >
+    <label
+      class="form-check-label"
+      :for="'privacy-policy-accept' + _uid"
+    >
+      <span v-html="labelHtml" /><!--
             --><sup>*</sup>
-        </label>
-    </div>
+    </label>
+  </div>
 </template>
 
 <script>
 export default {
 
-    name: "accept-privacy-policy-check",
+    name: "AcceptPrivacyPolicyCheck",
 
     props: {
         value: Boolean ,
@@ -21,14 +33,14 @@ export default {
     computed: {
         labelHtml()
         {
-            const contactPrivacyPolicy = this.$translate("Ceres::Template.contactPrivacyPolicy", {"hyphen": "&shy;"});
+            const contactPrivacyPolicy = this.$translate("Ceres::Template.contactPrivacyPolicy", { "hyphen": "&shy;" });
             const html = `
                 <!----><a href="${ App.urls.privacyPolicy }" target="_blank" class="text-appearance">
                     <span>${ contactPrivacyPolicy }</span>
                 </a><!---->
             `;
 
-            return this.$translate("Ceres::Template.contactAcceptPrivacyPolicy", {policy: html});
+            return this.$translate("Ceres::Template.contactAcceptPrivacyPolicy", { policy: html });
         }
     },
 

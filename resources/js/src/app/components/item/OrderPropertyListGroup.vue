@@ -1,20 +1,33 @@
 <template>
-    <div>
-        <div v-if="isShownOnItemPageCount">
-            <div v-if="propertyGroup.group" :class="paddingClasses" :style="paddingInlineStyles">
-                <div class="h4">
-                    {{ propertyGroup.group.names.name }}:
-                </div>
-                <p class="text-muted text-wrap">
-                    {{ propertyGroup.group.names.description }}
-                </p>
-            </div>
-
-            <div v-for="property in propertyGroup.properties" :key="property.id" :class="paddingClasses" :style="paddingInlineStyles">
-                <order-property-list-item v-if="property.isShownOnItemPage" :group="propertyGroup.group" :property="property"></order-property-list-item>
-            </div>
+  <div>
+    <div v-if="isShownOnItemPageCount">
+      <div
+        v-if="propertyGroup.group"
+        :class="paddingClasses"
+        :style="paddingInlineStyles"
+      >
+        <div class="h4">
+          {{ propertyGroup.group.names.name }}:
         </div>
+        <p class="text-muted text-wrap">
+          {{ propertyGroup.group.names.description }}
+        </p>
+      </div>
+
+      <div
+        v-for="property in propertyGroup.properties"
+        :key="property.id"
+        :class="paddingClasses"
+        :style="paddingInlineStyles"
+      >
+        <order-property-list-item
+          v-if="property.isShownOnItemPage"
+          :group="propertyGroup.group"
+          :property="property"
+        />
+      </div>
     </div>
+  </div>
 </template>
 
 <script>

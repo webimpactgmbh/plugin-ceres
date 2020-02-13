@@ -1,5 +1,5 @@
 <template>
-    <div data-recaptcha></div>
+  <div data-recaptcha />
 </template>
 
 <script>
@@ -7,7 +7,7 @@ let gRecaptchaApiLoaded;
 
 export default {
 
-    name: "recaptcha",
+    name: "Recaptcha",
 
     data()
     {
@@ -39,6 +39,7 @@ export default {
                 gRecaptchaApiLoaded = new Promise((resolve, reject) =>
                 {
                     const script = document.createElement("script");
+
                     let scriptSource;
 
                     if (this.version === 3)

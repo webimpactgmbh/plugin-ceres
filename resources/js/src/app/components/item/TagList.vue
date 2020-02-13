@@ -1,27 +1,32 @@
 <template>
-    <div v-if="tags" class="pt-1 pb-1">
-        <template v-if="isTagRouteEnabled">
-            <a
-                v-for="tag in tags"
-                :key="tag.id"
-                :href="getTagLink(tag)"
-                class="badge mr-1"
-                :class="[tagAppearance, marginClasses, getTextColorClass(tag.color)]"
-                :style="[getStyles(tag), marginInlineStyles]">
-                <span>{{ tag.names.name }}</span>
-            </a>
-        </template>
-        <template v-else>
-            <span
-                v-for="tag in tags"
-                :key="tag.id"
-                class="badge mr-1"
-                :class="[tagAppearance, marginClasses, getTextColorClass(tag.color)]"
-                :style="[getStyles(tag), marginInlineStyles]">
-                <span>{{ tag.names.name }}</span>
-            </span>
-        </template>
-    </div>
+  <div
+    v-if="tags"
+    class="pt-1 pb-1"
+  >
+    <template v-if="isTagRouteEnabled">
+      <a
+        v-for="tag in tags"
+        :key="tag.id"
+        :href="getTagLink(tag)"
+        class="badge mr-1"
+        :class="[tagAppearance, marginClasses, getTextColorClass(tag.color)]"
+        :style="[getStyles(tag), marginInlineStyles]"
+      >
+        <span>{{ tag.names.name }}</span>
+      </a>
+    </template>
+    <template v-else>
+      <span
+        v-for="tag in tags"
+        :key="tag.id"
+        class="badge mr-1"
+        :class="[tagAppearance, marginClasses, getTextColorClass(tag.color)]"
+        :style="[getStyles(tag), marginInlineStyles]"
+      >
+        <span>{{ tag.names.name }}</span>
+      </span>
+    </template>
+  </div>
 </template>
 
 <script>

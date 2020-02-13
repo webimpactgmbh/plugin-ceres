@@ -1,26 +1,56 @@
 <template>
-    <div>
-        <slot v-if="!isInitiallyLoaded"></slot>
-        <div class="row">
-            <div class="mb-3" :class="'col-' + columnDivider" v-for="category in categoryChildren">
-                <a :href="category.url" :title="category.details[0].metaTitle || category.details[0].name">
-                    <div class="nav-item border d-flex" :class="{ 'no-img': imageSource === 'none' }">
-                        <div v-if="category.details[0][imageSource]" class="prop-1-1">
-                            <img v-if="imageSource !== 'none'" :src="'/documents/' + category.details[0][imageSource]" :alt="category.details[0].metaTitle || category.details[0].name">
-                        </div>
-                        <div class="nav-text d-flex align-center p-2"><span class="text-appearance m-x-auto">{{ category.details[0].name }}</span></div>
-                    </div>
-                </a>
+  <div>
+    <slot v-if="!isInitiallyLoaded" />
+    <div class="row">
+      <div
+        v-for="(category, index) in categoryChildren"
+        :key="index"
+        class="mb-3"
+        :class="'col-' + columnDivider"
+      >
+        <a
+          :href="category.url"
+          :title="category.details[0].metaTitle || category.details[0].name"
+        >
+          <div
+            class="nav-item border d-flex"
+            :class="{ 'no-img': imageSource === 'none' }"
+          >
+            <div
+              v-if="category.details[0][imageSource]"
+              class="prop-1-1"
+            >
+              <img
+                v-if="imageSource !== 'none'"
+                :src="'/documents/' + category.details[0][imageSource]"
+                :alt="category.details[0].metaTitle || category.details[0].name"
+              >
             </div>
+            <div class="nav-text d-flex align-center p-2"><span class="text-appearance m-x-auto">{{ category.details[0].name }}</span></div>
+          </div>
+        </a>
+      </div>
 
-            <div class="mb-3 m-x-auto" v-if="categoryChildren.length && categoryChildren.length < childrenCount">
-                <button type="button" class="btn btn-appearance px-4 py-3" @click="loadChunk()" :class="{ 'disabled': isWaiting }">
-                    <span>{{ $translate("Ceres::Template.stepByStepNavigationShowMore") }}</span>
-                    <icon icon="plus-circle" class="fa-fw my-1" class-loading="fa-repeat"></icon>
-                </button>
-            </div>
-        </div>
+      <div
+        v-if="categoryChildren.length && categoryChildren.length < childrenCount"
+        class="mb-3 m-x-auto"
+      >
+        <button
+          type="button"
+          class="btn btn-appearance px-4 py-3"
+          :class="{ 'disabled': isWaiting }"
+          @click="loadChunk()"
+        >
+          <span>{{ $translate("Ceres::Template.stepByStepNavigationShowMore") }}</span>
+          <icon
+            icon="plus-circle"
+            class="fa-fw my-1"
+            class-loading="fa-repeat"
+          />
+        </button>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>

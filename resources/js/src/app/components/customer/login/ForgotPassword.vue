@@ -1,50 +1,101 @@
 <template>
-	<form :id="'reset-pwd-form-' + _uid" method="post" class="reset-pwd-container login-pwd-reset">
-		<div class="modal fade" id="resetPwd" ref="pwdModal" tabindex="-1" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<div class="modal-title h3">{{ $translate("Ceres::Template.loginForgotPassword") }}</div>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					</div>
-					<div class="modal-body">
-						<div class="alert alert-info w-100 pwd-forgot-info">
-							<span class="info-badge">{{ $translate("Ceres::Template.loginForgotPasswordInfo") }}</span>
-						</div>
-						<div class="row">
-							<div class="col-12">
-                                <input class="honey" type="text" name="username" autocomplete="off" tabindex="-1" v-model="honeypot">
-								<div class="input-unit no-bottom" data-validate="mail">
-									<input type="email" name="email" autocomplete="email" :id="'mail' + _uid" v-model="username" data-autofocus>
-									<label :for="'mail' + _uid">{{ $translate("Ceres::Template.loginEmail") }}*</label>
-								</div>
-								<span class="error-msg">{{ $translate("Ceres::Template.loginEnterConfirmEmail") }}</span>
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<div>
-                            <slot name="extend-overlay-buttons"></slot>
+  <form
+    :id="'reset-pwd-form-' + _uid"
+    method="post"
+    class="reset-pwd-container login-pwd-reset"
+  >
+    <div
+      id="resetPwd"
+      ref="pwdModal"
+      class="modal fade"
+      tabindex="-1"
+      role="dialog"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-title h3">
+              {{ $translate("Ceres::Template.loginForgotPassword") }}
+            </div>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-hidden="true"
+            >
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-info w-100 pwd-forgot-info">
+              <span class="info-badge">{{ $translate("Ceres::Template.loginForgotPasswordInfo") }}</span>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <input
+                  v-model="honeypot"
+                  class="honey"
+                  type="text"
+                  name="username"
+                  autocomplete="off"
+                  tabindex="-1"
+                >
+                <div
+                  class="input-unit no-bottom"
+                  data-validate="mail"
+                >
+                  <input
+                    :id="'mail' + _uid"
+                    v-model="username"
+                    type="email"
+                    name="email"
+                    autocomplete="email"
+                    data-autofocus
+                  >
+                  <label :for="'mail' + _uid">{{ $translate("Ceres::Template.loginEmail") }}*</label>
+                </div>
+                <span class="error-msg">{{ $translate("Ceres::Template.loginEnterConfirmEmail") }}</span>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div>
+              <slot name="extend-overlay-buttons" />
 
-                            <button v-if="!!currentTemplate && currentTemplate != 'tpl.login'" type="button" @click.prevent="cancelResetPwd" class="btn btn-danger btn-medium mr-2">
-                                <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                                {{ $translate("Ceres::Template.loginBackToLogin") }}
-                            </button>
+              <button
+                v-if="!!currentTemplate && currentTemplate != 'tpl.login'"
+                type="button"
+                class="btn btn-danger btn-medium mr-2"
+                @click.prevent="cancelResetPwd"
+              >
+                <i
+                  class="fa fa-arrow-left"
+                  aria-hidden="true"
+                />
+                {{ $translate("Ceres::Template.loginBackToLogin") }}
+              </button>
 
-							<button @click.prevent="validateResetPwd" :disabled="isDisabled" class="btn btn-primary btn-medium">
-								{{ $translate("Ceres::Template.loginSend") }}
-								<icon icon="paper-plane-o" :loading="isDisabled"></icon>
-							</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</form>
+              <button
+                :disabled="isDisabled"
+                class="btn btn-primary btn-medium"
+                @click.prevent="validateResetPwd"
+              >
+                {{ $translate("Ceres::Template.loginSend") }}
+                <icon
+                  icon="paper-plane-o"
+                  :loading="isDisabled"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
 </template>
 
 <script>
-import ApiServicefrom from "../../../services/ApiService";
+import ApiService from "../../../services/ApiService";
 import NotificationService from "../../../services/NotificationService";
 import ModalService from "../../../services/ModalService";
 import ValidationService from "../../../services/ValidationService";
@@ -53,7 +104,7 @@ import { isNullOrUndefined } from "../../../helper/utils";
 
 export default {
 
-    name: "forgot-password-modal",
+    name: "ForgotPasswordModal",
 
     props: {
         currentTemplate: String
@@ -66,6 +117,14 @@ export default {
             isDisabled: false,
             honeypot: ""
         };
+    },
+
+    watch:
+    {
+        username()
+        {
+            this.resetError();
+        }
     },
 
     mounted()
@@ -86,14 +145,6 @@ export default {
                 this.username = !isNullOrUndefined(urlParams.email) ? urlParams.email : "";
             }
         });
-    },
-
-    watch:
-    {
-        username(val, oldVal)
-        {
-            this.resetError();
-        }
     },
 
     methods:

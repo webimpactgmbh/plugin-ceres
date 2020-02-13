@@ -1,23 +1,33 @@
 <template>
-    <div class="notification-wrapper">
-        <div v-for="notification in filteredNotifications"
-            :key="notification.id"
-            :class="'alert alert-dismissible fade in show alert-' + notification.context"
-            role="alert"
-        >
-            <button type="button" class="close" aria-label="Close" @click="notification.close()">
-                <span aria-hidden="true">&times;</span>
-            </button>
+  <div class="notification-wrapper">
+    <div
+      v-for="notification in filteredNotifications"
+      :key="notification.id"
+      :class="'alert alert-dismissible fade in show alert-' + notification.context"
+      role="alert"
+    >
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        @click="notification.close()"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
 
-            <strong v-if="showErrorCode">{{ notification.code }}</strong>
+      <strong v-if="showErrorCode">{{ notification.code }}</strong>
 
-            <div v-html="notification.message"></div>
+      <div v-html="notification.message" />
 
-            <p class="small" v-for="(trace, index) in notification.stackTrace" :key="index">
-                {{ trace.message }}
-            </p>
-        </div>
+      <p
+        v-for="(trace, index) in notification.stackTrace"
+        :key="index"
+        class="small"
+      >
+        {{ trace.message }}
+      </p>
     </div>
+  </div>
 </template>
 
 <script>

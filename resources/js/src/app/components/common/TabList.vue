@@ -3,7 +3,7 @@ import { isDefined } from "../../helper/utils";
 import TabItem from "./TabItem.vue";
 
 const TabNavItem = {
-    
+
     name: "tab-nav-item",
 
     render(createElement)
@@ -62,71 +62,11 @@ const TabNavItem = {
 
 export default {
 
-    name: "tab-list",
+    name: "TabList",
 
     components:
     {
         TabItem
-    },
-
-    render(createElement)
-    {
-        const tabListElements = [];
-        const tabs = this.getVisibleTabs();
-
-        if (tabs.length > 0)
-        {
-            const navElements = tabs.map((tab, index) =>
-            {
-                return createElement(
-                    TabNavItem,
-                    {
-                        props: {
-                            tab: tab,
-                            tabIndex: index
-                        },
-                        on: {
-                            click: evt =>
-                            {
-                                if (!tab.localActive)
-                                {
-                                    this.activateTab(tab, evt);
-                                }
-                            }
-                        }
-                    });
-            });
-
-            const nav = createElement(
-                "ul",
-                {
-                    staticClass: "nav nav-tabs",
-                    class: ["widget-" + this.appearance],
-                    attrs: {
-                        role: "tablist"
-                    }
-                },
-                [navElements]
-            );
-
-            tabListElements.push(nav);
-        }
-
-        const content = createElement(
-            "div",
-            {
-                staticClass: "tab-content"
-            },
-            [this.$slots.default.filter(tab => !!tab.componentOptions)]
-        );
-
-        tabListElements.push(content);
-
-        return createElement(
-            "div",
-            {},
-            tabListElements
-        );
     },
 
     props: {
@@ -216,6 +156,66 @@ export default {
         {
             return tab.$el.textContent.trim().length > 0 || tab.$el.querySelector("img, iframe");
         }
+    },
+
+    render(createElement)
+    {
+        const tabListElements = [];
+        const tabs = this.getVisibleTabs();
+
+        if (tabs.length > 0)
+        {
+            const navElements = tabs.map((tab, index) =>
+            {
+                return createElement(
+                    TabNavItem,
+                    {
+                        props: {
+                            tab: tab,
+                            tabIndex: index
+                        },
+                        on: {
+                            click: evt =>
+                            {
+                                if (!tab.localActive)
+                                {
+                                    this.activateTab(tab, evt);
+                                }
+                            }
+                        }
+                    });
+            });
+
+            const nav = createElement(
+                "ul",
+                {
+                    staticClass: "nav nav-tabs",
+                    class: ["widget-" + this.appearance],
+                    attrs: {
+                        role: "tablist"
+                    }
+                },
+                [navElements]
+            );
+
+            tabListElements.push(nav);
+        }
+
+        const content = createElement(
+            "div",
+            {
+                staticClass: "tab-content"
+            },
+            [this.$slots.default.filter(tab => !!tab.componentOptions)]
+        );
+
+        tabListElements.push(content);
+
+        return createElement(
+            "div",
+            {},
+            tabListElements
+        );
     }
 }
 </script>

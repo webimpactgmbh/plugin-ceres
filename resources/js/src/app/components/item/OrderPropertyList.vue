@@ -1,38 +1,61 @@
 <template>
-    <div class="order-property-slider mb-3">
-        <div class="order-property-slider-inner" :style="{transform: 'translateX(-' + (activeSlide * 100) + '%)'}">
-            <div v-for="(propertyGroup, index) in sortedGroupedProperties" :class="{'active': index === activeSlide}" :key="index">
-                <order-property-list-group
-                    :padding-classes="paddingClasses"
-                    :padding-inline-styles="paddingInlineStyles"
-                    :key="propertyGroup.id"
-                    :property-group="propertyGroup">
-                </order-property-list-group>
-            </div>
-        </div>
-
-        <div class="order-property-slider-controls" :class="paddingClasses" :style="paddingInlineStyles" v-if="sortedGroupedProperties.length > 1">
-            <div class="btn" @click="slideTo(activeSlide - 1)" :class="{'btn-primary': activeSlide > 0, 'btn-secondary disabled': activeSlide === 0}" tabindex="0">
-                <span class="fa fa-chevron-left"></span>
-            </div>
-
-            <div class="slider-nav">
-                <span v-for="(propertyGroup, index) in sortedGroupedProperties"
-                      :class="{ 'active': index === activeSlide, 'highlight': !touchedSlides[index], 'error': propertyGroup.hasError }"
-                      @click="slideTo(index)"
-                      :key="index"
-                      v-tooltip
-                      data-toggle="tooltip"
-                      data-placement="top"
-                      :title="propertyGroup.group ? propertyGroup.group.names.name : $translate('Ceres::Template.singleItemPropertiesWithoutGroup')">
-                </span>
-            </div>
-
-            <div class="btn float-right" @click="slideTo(activeSlide + 1)" :class="{'btn-primary': activeSlide < sortedGroupedProperties.length - 1, 'btn-secondary disabled': activeSlide >= sortedGroupedProperties.length - 1 }" tabindex="0">
-                <span class="fa fa-chevron-right"></span>
-            </div>
-        </div>
+  <div class="order-property-slider mb-3">
+    <div
+      class="order-property-slider-inner"
+      :style="{transform: 'translateX(-' + (activeSlide * 100) + '%)'}"
+    >
+      <div
+        v-for="(propertyGroup, index) in sortedGroupedProperties"
+        :key="index"
+        :class="{'active': index === activeSlide}"
+      >
+        <order-property-list-group
+          :key="propertyGroup.id"
+          :padding-classes="paddingClasses"
+          :padding-inline-styles="paddingInlineStyles"
+          :property-group="propertyGroup"
+        />
+      </div>
     </div>
+
+    <div
+      v-if="sortedGroupedProperties.length > 1"
+      class="order-property-slider-controls"
+      :class="paddingClasses"
+      :style="paddingInlineStyles"
+    >
+      <div
+        class="btn"
+        :class="{'btn-primary': activeSlide > 0, 'btn-secondary disabled': activeSlide === 0}"
+        tabindex="0"
+        @click="slideTo(activeSlide - 1)"
+      >
+        <span class="fa fa-chevron-left" />
+      </div>
+
+      <div class="slider-nav">
+        <span
+          v-for="(propertyGroup, index) in sortedGroupedProperties"
+          :key="index"
+          v-tooltip
+          :class="{ 'active': index === activeSlide, 'highlight': !touchedSlides[index], 'error': propertyGroup.hasError }"
+          data-toggle="tooltip"
+          data-placement="top"
+          :title="propertyGroup.group ? propertyGroup.group.names.name : $translate('Ceres::Template.singleItemPropertiesWithoutGroup')"
+          @click="slideTo(index)"
+        />
+      </div>
+
+      <div
+        class="btn float-right"
+        :class="{'btn-primary': activeSlide < sortedGroupedProperties.length - 1, 'btn-secondary disabled': activeSlide >= sortedGroupedProperties.length - 1 }"
+        tabindex="0"
+        @click="slideTo(activeSlide + 1)"
+      >
+        <span class="fa fa-chevron-right" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

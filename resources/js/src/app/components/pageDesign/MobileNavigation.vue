@@ -1,88 +1,179 @@
 <template>
-    <div class="mobile-navigation">
-        <div v-show="isNavigationInitialized">
-            <ul class="breadcrumb d-block px-3 py-0">
-                <li class="btn-close" @click="closeNavigation()"></li>
+  <div class="mobile-navigation">
+    <div v-show="isNavigationInitialized">
+      <ul class="breadcrumb d-block px-3 py-0">
+        <li
+          class="btn-close"
+          @click="closeNavigation()"
+        />
 
-                <li class="breadcrumb-item" @click="slideTo(null, true)">
-                    <i class="fa fa-home" aria-hidden="true"></i>
-                </li>
+        <li
+          class="breadcrumb-item"
+          @click="slideTo(null, true)"
+        >
+          <i
+            class="fa fa-home"
+            aria-hidden="true"
+          />
+        </li>
 
-                <li class="breadcrumb-item" v-for="breadcrumb in breadcrumbs" @click="slideTo(breadcrumb.parent, true)">
-                    {{ breadcrumb.name }}
-                </li>
-            </ul>
-            <ul v-menu id="menu-1" class="mainmenu w-100 p-0 m-0 menu-active">
-                <li class="ddown" v-if="dataContainer1.parent" @click="slideTo(dataContainer1.parent && dataContainer1.parent.parent || null, true)">
-                    <span class="nav-direction btn-up">
-                        <i class="fa fa-lg fa-level-up" aria-hidden="true"></i>
-                    </span>
-                </li>
+        <li
+          v-for="(breadcrumb, index) in breadcrumbs"
+          :key="index"
+          class="breadcrumb-item"
+          @click="slideTo(breadcrumb.parent, true)"
+        >
+          {{ breadcrumb.name }}
+        </li>
+      </ul>
+      <ul
+        id="menu-1"
+        v-menu
+        class="mainmenu w-100 p-0 m-0 menu-active"
+      >
+        <li
+          v-if="dataContainer1.parent"
+          class="ddown"
+          @click="slideTo(dataContainer1.parent && dataContainer1.parent.parent || null, true)"
+        >
+          <span class="nav-direction btn-up">
+            <i
+              class="fa fa-lg fa-level-up"
+              aria-hidden="true"
+            />
+          </span>
+        </li>
 
-                <li class="ddown" v-for="category in dataContainer1.categories">
-                    <a :href="getCategoryUrl(category.url)">{{ category.details[0].name }}</a>
-                    <span class="nav-direction" v-if="category.childCount" @click="slideTo(category)">
-                        <i class="fa fa-lg fa-caret-right" aria-hidden="true"></i>
-                    </span>
-                </li>
-                <template v-if="dataContainer1.categories[0]">
-                    <li class="ddown" v-for="number in dataContainer1.categories[0].siblingCount - dataContainer1.categories.length">
-                        <span class="nav-placeholder m-3" :style="{width: (Math.random() * 20 + 60) + '%'}"></span>
-                    </li>
-                </template>
-                <template v-else-if="dataContainer1.parent">
-                    <li class="ddown" v-for="number in dataContainer1.parent.childCount">
-                        <span class="nav-placeholder m-3" :style="{width: (Math.random() * 20 + 60) + '%'}"></span>
-                    </li>
-                </template>
-            </ul>
-
-            <ul v-menu id="menu-2" class="mainmenu w-100 p-0 m-0">
-                <li class="ddown" v-if="dataContainer2.parent" @click="slideTo(dataContainer2.parent && dataContainer2.parent.parent || null, true)">
-                    <span class="nav-direction btn-up">
-                        <i class="fa fa-lg fa-level-up" aria-hidden="true"></i>
-                    </span>
-                </li>
-
-                <li  class="ddown" v-for="category in dataContainer2.categories">
-                    <a :href="getCategoryUrl(category.url)">{{ category.details[0].name }}</a>
-                    <span class="nav-direction" v-if="category.childCount" @click="slideTo(category)">
-                        <i class="fa fa-lg fa-caret-right" aria-hidden="true"></i>
-                    </span>
-                </li>
-                <template v-if="dataContainer2.categories[0]">
-                    <li class="ddown" v-for="number in dataContainer2.categories[0].siblingCount - dataContainer2.categories.length">
-                        <span class="nav-placeholder m-3" :style="{width: (Math.random() * 20 + 60) + '%'}"></span>
-                    </li>
-                </template>
-                <template v-else-if="dataContainer2.parent">
-                    <li class="ddown" v-for="number in dataContainer2.parent.childCount">
-                        <span class="nav-placeholder m-3" :style="{width: (Math.random() * 20 + 60) + '%'}"></span>
-                    </li>
-                </template>
-            </ul>
-        </div>
-
-        <template v-if="!isNavigationInitialized">
-            <ul class="breadcrumb">
-                <li class="btn-close" @click="closeNavigation()"></li>
-
-                <li class="breadcrumb-item">
-                    <i class="fa fa-home" aria-hidden="true"></i>
-                </li>
-            </ul>
-
-            <div class="loading">
-                <slot name="loading-animation"></slot>
-            </div>
+        <li
+          v-for="(category, index) in dataContainer1.categories"
+          :key="index"
+          class="ddown"
+        >
+          <a :href="getCategoryUrl(category.url)">{{ category.details[0].name }}</a>
+          <span
+            v-if="category.childCount"
+            class="nav-direction"
+            @click="slideTo(category)"
+          >
+            <i
+              class="fa fa-lg fa-caret-right"
+              aria-hidden="true"
+            />
+          </span>
+        </li>
+        <template v-if="dataContainer1.categories[0]">
+          <li
+            v-for="(number, index) in dataContainer1.categories[0].siblingCount - dataContainer1.categories.length"
+            :key="index"
+            class="ddown"
+          >
+            <span
+              class="nav-placeholder m-3"
+              :style="{width: (Math.random() * 20 + 60) + '%'}"
+            />
+          </li>
         </template>
+        <template v-else-if="dataContainer1.parent">
+          <li
+            v-for="(number, index) in dataContainer1.parent.childCount"
+            :key="index"
+            class="ddown"
+          >
+            <span
+              class="nav-placeholder m-3"
+              :style="{width: (Math.random() * 20 + 60) + '%'}"
+            />
+          </li>
+        </template>
+      </ul>
+
+      <ul
+        id="menu-2"
+        v-menu
+        class="mainmenu w-100 p-0 m-0"
+      >
+        <li
+          v-if="dataContainer2.parent"
+          class="ddown"
+          @click="slideTo(dataContainer2.parent && dataContainer2.parent.parent || null, true)"
+        >
+          <span class="nav-direction btn-up">
+            <i
+              class="fa fa-lg fa-level-up"
+              aria-hidden="true"
+            />
+          </span>
+        </li>
+
+        <li
+          v-for="(category, index) in dataContainer2.categories"
+          :key="index"
+          class="ddown"
+        >
+          <a :href="getCategoryUrl(category.url)">{{ category.details[0].name }}</a>
+          <span
+            v-if="category.childCount"
+            class="nav-direction"
+            @click="slideTo(category)"
+          >
+            <i
+              class="fa fa-lg fa-caret-right"
+              aria-hidden="true"
+            />
+          </span>
+        </li>
+        <template v-if="dataContainer2.categories[0]">
+          <li
+            v-for="(number, index) in dataContainer2.categories[0].siblingCount - dataContainer2.categories.length"
+            :key="index"
+            class="ddown"
+          >
+            <span
+              class="nav-placeholder m-3"
+              :style="{width: (Math.random() * 20 + 60) + '%'}"
+            />
+          </li>
+        </template>
+        <template v-else-if="dataContainer2.parent">
+          <li
+            v-for="(number, index) in dataContainer2.parent.childCount"
+            :key="index"
+            class="ddown"
+          >
+            <span
+              class="nav-placeholder m-3"
+              :style="{width: (Math.random() * 20 + 60) + '%'}"
+            />
+          </li>
+        </template>
+      </ul>
     </div>
+
+    <template v-if="!isNavigationInitialized">
+      <ul class="breadcrumb">
+        <li
+          class="btn-close"
+          @click="closeNavigation()"
+        />
+
+        <li class="breadcrumb-item">
+          <i
+            class="fa fa-home"
+            aria-hidden="true"
+          />
+        </li>
+      </ul>
+
+      <div class="loading">
+        <slot name="loading-animation" />
+      </div>
+    </template>
+  </div>
 </template>
 
 <script>
 import { MediaQueryHelper } from "../../helper/MediaQueryHelper";
 import { isNullOrUndefined, isDefined } from "../../helper/utils";
-import Vue from "vue";
 import { mapState } from "vuex";
 
 export default {
@@ -122,6 +213,7 @@ export default {
         breadcrumbs()
         {
             const breadcrumbs = [];
+
             let container = this.useFirstContainer ? this.dataContainer2 : this.dataContainer1;
 
             while (container && container.parent && Object.keys(container.parent).length)

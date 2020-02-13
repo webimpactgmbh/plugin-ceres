@@ -1,20 +1,28 @@
 <template>
-    <div>
-        <transition-group name="list-transition" tag="div">
-            <wish-list-item
-                v-for="wishListItem in wishListItems"
-                :key="wishListItem.id"
-                :wish-list-item-raw="wishListItem"
-                :item-details-data="itemDetailsData">
-            </wish-list-item>
-        </transition-group>
+  <div>
+    <transition-group
+      name="list-transition"
+      tag="div"
+    >
+      <wish-list-item
+        v-for="wishListItem in wishListItems"
+        :key="wishListItem.id"
+        :wish-list-item-raw="wishListItem"
+        :item-details-data="itemDetailsData"
+      />
+    </transition-group>
 
-        <p class="h4 text-muted text-center my-5" v-if="!isLoading && !wishListItems[0]">{{ $translate("Ceres::Template.wishListNoItems") }}</p>
+    <p
+      v-if="!isLoading && !wishListItems[0]"
+      class="h4 text-muted text-center my-5"
+    >
+      {{ $translate("Ceres::Template.wishListNoItems") }}
+    </p>
 
-        <div :class="{'loading': isLoading}">
-            <slot name="loading-animation"></slot>
-        </div>
+    <div :class="{'loading': isLoading}">
+      <slot name="loading-animation" />
     </div>
+  </div>
 </template>
 
 <script>
@@ -23,7 +31,7 @@ import WishListItem from "./WishListItem.vue";
 
 export default {
 
-    name: "wish-list",
+    name: "WishList",
 
     components:
     {

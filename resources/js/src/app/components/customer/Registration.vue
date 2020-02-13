@@ -1,84 +1,152 @@
 <template>
-    <form class="w-100" autocomplete="on" method="post" @submit.prevent="validateRegistration()" ref="registrationForm">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="input-unit" data-validate="mail">
-                    <input type="email" name="email" autocomplete="email" :id="'email'+_uid" v-model="username" data-autofocus>
-                    <label :for="'email'+_uid">{{ $translate("Ceres::Template.regEmail") }}*</label>
-                </div>
-            </div>
-
-            <div class="col-sm-6" v-if="!guestMode">
-                <div class="input-unit" :class="{'no-bottom media-xs-d': modalElement}" data-validate="password" ref="passwordInput">
-                    <popper v-cloak trigger="focus" placement="bottom" ref="passwordHint">
-                        <template #handle>
-                            <input type="password" name="password" autocomplete="new-password" :id="'new-password-' + _uid" v-model="password">
-                        </template>
-
-                        <template #title>
-                            <div>
-                                {{ $translate("Ceres::Template.regPasswordHintTitle") }}
-                            </div>
-                        </template>
-
-                        <template #content>
-                            <ul class="pl-3">
-                                <li>{{ $translate("Ceres::Template.regPasswordHintLength") }}</li>
-                                <li>{{ $translate("Ceres::Template.regPasswordHintDigit") }}</li>
-                                <li>{{ $translate("Ceres::Template.regPasswordHintChar") }}</li>
-                            </ul>
-                        </template>
-                    </popper>
-
-                    <label :for="'new-password-' + _uid">{{ $translate("Ceres::Template.regPassword") }}*</label>
-                </div>
-            </div>
-
-            <div class="col-sm-6 input-unit-group" v-if="!guestMode">
-                <div class="input-unit" :class="{'no-bottom': modalElement}" data-validate="ref">
-                    <input type="password" name="password-repeat" autocomplete="new-password" :id="'new-password-repeat-' + _uid" v-model="passwordRepeat" :data-validate-ref="'#new-password-' + _uid">
-                    <label :for="'new-password-repeat' + _uid">{{ $translate("Ceres::Template.regRepeatPassword") }}*</label>
-                </div>
-            </div>
-
-            <input class="honey" type="text" name="username" autocomplete="off" tabindex="-1" v-model="honeypot">
-
-            <div class="col-12">
-                <address-input-group
-                    template="#vue-address-input-group"
-                    v-if="!isSimpleRegistration"
-                    address-type="1"
-                    :value="billingAddress"
-                    @input="setAddressDataField($event)"
-                    :optional-address-fields="shownFields"
-                    :required-address-fields="requiredFields"
-                    :default-salutation="defaultSalutation">
-                    <template #custom-address-fields>
-                        <slot name="custom-address-fields"></slot>
-                    </template>
-                </address-input-group>
-            </div>
-
-            <div class="col-12" v-if="enableConfirmingPrivacyPolicy">
-                <accept-privacy-policy-check
-                        class="mt-3 mb-0"
-                        v-model="privacyPolicyAccepted"
-                        @input="privacyPolicyValueChanged($event)"
-                        :show-error="privacyPolicyShowError">
-                </accept-privacy-policy-check>
-            </div>
+  <form
+    ref="registrationForm"
+    class="w-100"
+    autocomplete="on"
+    method="post"
+    @submit.prevent="validateRegistration()"
+  >
+    <div class="row">
+      <div class="col-sm-12">
+        <div
+          class="input-unit"
+          data-validate="mail"
+        >
+          <input
+            :id="'email'+_uid"
+            v-model="username"
+            type="email"
+            name="email"
+            autocomplete="email"
+            data-autofocus
+          >
+          <label :for="'email'+_uid">{{ $translate("Ceres::Template.regEmail") }}*</label>
         </div>
-        <div class="border-top mt-2 text-right">
-            <slot name="extend-overlay-buttons"></slot>
+      </div>
 
-            <button :disabled="isDisabled" class="btn btn-appearance btn-primary btn-medium mt-3" :class="buttonSizeClass">
-                {{ $translate("Ceres::Template.regRegister") }}
-                <icon icon="user-plus" class="default-float" :loading="isDisabled"></icon>
-            </button>
+      <div
+        v-if="!guestMode"
+        class="col-sm-6"
+      >
+        <div
+          ref="passwordInput"
+          class="input-unit"
+          :class="{'no-bottom media-xs-d': modalElement}"
+          data-validate="password"
+        >
+          <popper
+            v-cloak
+            ref="passwordHint"
+            trigger="focus"
+            placement="bottom"
+          >
+            <template #handle>
+              <input
+                :id="'new-password-' + _uid"
+                v-model="password"
+                type="password"
+                name="password"
+                autocomplete="new-password"
+              >
+            </template>
+
+            <template #title>
+              <div>
+                {{ $translate("Ceres::Template.regPasswordHintTitle") }}
+              </div>
+            </template>
+
+            <template #content>
+              <ul class="pl-3">
+                <li>{{ $translate("Ceres::Template.regPasswordHintLength") }}</li>
+                <li>{{ $translate("Ceres::Template.regPasswordHintDigit") }}</li>
+                <li>{{ $translate("Ceres::Template.regPasswordHintChar") }}</li>
+              </ul>
+            </template>
+          </popper>
+
+          <label :for="'new-password-' + _uid">{{ $translate("Ceres::Template.regPassword") }}*</label>
         </div>
+      </div>
 
-        <recaptcha v-if="!!googleRecaptchaApiKey && modalShown"></recaptcha>
-    </form>
+      <div
+        v-if="!guestMode"
+        class="col-sm-6 input-unit-group"
+      >
+        <div
+          class="input-unit"
+          :class="{'no-bottom': modalElement}"
+          data-validate="ref"
+        >
+          <input
+            :id="'new-password-repeat-' + _uid"
+            v-model="passwordRepeat"
+            type="password"
+            name="password-repeat"
+            autocomplete="new-password"
+            :data-validate-ref="'#new-password-' + _uid"
+          >
+          <label :for="'new-password-repeat' + _uid">{{ $translate("Ceres::Template.regRepeatPassword") }}*</label>
+        </div>
+      </div>
+
+      <input
+        v-model="honeypot"
+        class="honey"
+        type="text"
+        name="username"
+        autocomplete="off"
+        tabindex="-1"
+      >
+
+      <div class="col-12">
+        <address-input-group
+          v-if="!isSimpleRegistration"
+          template="#vue-address-input-group"
+          address-type="1"
+          :value="billingAddress"
+          :optional-address-fields="shownFields"
+          :required-address-fields="requiredFields"
+          :default-salutation="defaultSalutation"
+          @input="setAddressDataField($event)"
+        >
+          <template #custom-address-fields>
+            <slot name="custom-address-fields" />
+          </template>
+        </address-input-group>
+      </div>
+
+      <div
+        v-if="enableConfirmingPrivacyPolicy"
+        class="col-12"
+      >
+        <accept-privacy-policy-check
+          v-model="privacyPolicyAccepted"
+          class="mt-3 mb-0"
+          :show-error="privacyPolicyShowError"
+          @input="privacyPolicyValueChanged($event)"
+        />
+      </div>
+    </div>
+    <div class="border-top mt-2 text-right">
+      <slot name="extend-overlay-buttons" />
+
+      <button
+        :disabled="isDisabled"
+        class="btn btn-appearance btn-primary btn-medium mt-3"
+        :class="buttonSizeClass"
+      >
+        {{ $translate("Ceres::Template.regRegister") }}
+        <icon
+          icon="user-plus"
+          class="default-float"
+          :loading="isDisabled"
+        />
+      </button>
+    </div>
+
+    <recaptcha v-if="!!googleRecaptchaApiKey && modalShown" />
+  </form>
 </template>
 
 <script>
@@ -95,7 +163,7 @@ import AcceptPrivacyPolicyCheck from "./AcceptPrivacyPolicyCheck.vue";
 
 export default {
 
-    name: "registration",
+    name: "Registration",
 
     components:
     {

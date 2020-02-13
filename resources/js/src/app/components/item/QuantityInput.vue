@@ -1,34 +1,46 @@
 <template>
-    <div class="qty-box d-flex h-100">
-        <input class="qty-input text-center"
-               type="text"
-               :value="displayValue"
-               @change="setValue($event.target.value)"
-               :disabled="waiting"
-               ref="quantityInputField">
+  <div class="qty-box d-flex h-100">
+    <input
+      ref="quantityInputField"
+      class="qty-input text-center"
+      type="text"
+      :value="displayValue"
+      :disabled="waiting"
+      @change="setValue($event.target.value)"
+    >
 
-        <div class="qty-btn-container d-flex flex-column">
-            <button class="btn qty-btn flex-fill d-flex justify-content-center p-0"
-                 @click="increaseValue()"
-                 :class="{ 'disabled': isMaximum || waiting }"
-                 v-tooltip="isMaximum && compMax !== 0"
-                 data-toggle="tooltip"
-                 data-placement="top"
-                 :title="maximumHint">
-                <i class="fa fa-plus default-float" aria-hidden="true"></i>
-            </button>
+    <div class="qty-btn-container d-flex flex-column">
+      <button
+        v-tooltip="isMaximum && compMax !== 0"
+        class="btn qty-btn flex-fill d-flex justify-content-center p-0"
+        :class="{ 'disabled': isMaximum || waiting }"
+        data-toggle="tooltip"
+        data-placement="top"
+        :title="maximumHint"
+        @click="increaseValue()"
+      >
+        <i
+          class="fa fa-plus default-float"
+          aria-hidden="true"
+        />
+      </button>
 
-            <button class="btn qty-btn flex-fill d-flex justify-content-center p-0"
-                 @click="decreaseValue()"
-                 :class="{ 'disabled': isMinimum || waiting }"
-                 v-tooltip="isMinimum"
-                 data-toggle="tooltip"
-                 data-placement="bottom"
-                 :title="minimumHint">
-                <i class="fa fa-minus default-float" aria-hidden="true"></i>
-            </button>
-        </div>
+      <button
+        v-tooltip="isMinimum"
+        class="btn qty-btn flex-fill d-flex justify-content-center p-0"
+        :class="{ 'disabled': isMinimum || waiting }"
+        data-toggle="tooltip"
+        data-placement="bottom"
+        :title="minimumHint"
+        @click="decreaseValue()"
+      >
+        <i
+          class="fa fa-minus default-float"
+          aria-hidden="true"
+        />
+      </button>
     </div>
+  </div>
 </template>
 
 <script>

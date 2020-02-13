@@ -1,38 +1,73 @@
 <template>
-    <div class="login-pwd-reset">
-        <form :id="'login-form-' + _uid" method="post">
-            <div :class="{'modal-body': modalElement}">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="input-unit" data-validate="mail">
-                            <input type="email" name="email" autocomplete="email" :id="'email' + _uid" v-model="username" data-autofocus>
-                            <label :for="'email' + _uid">{{ $translate("Ceres::Template.loginEmail") }}*</label>
-                        </div>
-                        <span class="error-msg">{{ $translate("Ceres::Template.loginEnterConfirmEmail") }}</span>
-                    </div>
-                    <div class="col-12">
-                        <div class="input-unit" :class="{'no-bottom': modalElement}" data-validate="text">
-                            <input type="password" name="password" autocomplete="current-password" :id="'password' + _uid" v-model="password">
-                            <label :for="'password' + _uid">{{ $translate("Ceres::Template.loginPassword") }}*</label>
-                        </div>
-                        <span class="error-msg">{{ $translate("Ceres::Template.loginEmptyPassword") }}</span>
-                    </div>
-                </div>
+  <div class="login-pwd-reset">
+    <form
+      :id="'login-form-' + _uid"
+      method="post"
+    >
+      <div :class="{'modal-body': modalElement}">
+        <div class="row">
+          <div class="col-12">
+            <div
+              class="input-unit"
+              data-validate="mail"
+            >
+              <input
+                :id="'email' + _uid"
+                v-model="username"
+                type="email"
+                name="email"
+                autocomplete="email"
+                data-autofocus
+              >
+              <label :for="'email' + _uid">{{ $translate("Ceres::Template.loginEmail") }}*</label>
             </div>
-            <div :class="{'modal-footer justify-content-between': modalElement, 'row': !modalElement}">
-                <div :class="{'col-7 col-sm-4': !modalElement}">
-                    <a href="javascript:void(0)" @click="showResetPwdView" class="small text-appearance">{{ $translate("Ceres::Template.loginForgotPassword") }}?</a>
-                </div>
-                <div :class="{'col-5 col-sm-8 text-sm-right': !modalElement}">
-                    <slot name="extend-overlay-buttons"></slot>
-                    <button @click.prevent="validateLogin" :disabled="isDisabled" class="btn btn-primary btn-appearance btn-medium" :class="[{'float-right': !modalElement}, buttonSizeClass]">
-                        {{ $translate("Ceres::Template.login") }}
-                        <icon icon="user" :loading="isDisabled"></icon>
-                    </button>
-                </div>
+            <span class="error-msg">{{ $translate("Ceres::Template.loginEnterConfirmEmail") }}</span>
+          </div>
+          <div class="col-12">
+            <div
+              class="input-unit"
+              :class="{'no-bottom': modalElement}"
+              data-validate="text"
+            >
+              <input
+                :id="'password' + _uid"
+                v-model="password"
+                type="password"
+                name="password"
+                autocomplete="current-password"
+              >
+              <label :for="'password' + _uid">{{ $translate("Ceres::Template.loginPassword") }}*</label>
             </div>
-        </form>
-    </div>
+            <span class="error-msg">{{ $translate("Ceres::Template.loginEmptyPassword") }}</span>
+          </div>
+        </div>
+      </div>
+      <div :class="{'modal-footer justify-content-between': modalElement, 'row': !modalElement}">
+        <div :class="{'col-7 col-sm-4': !modalElement}">
+          <a
+            href="javascript:void(0)"
+            class="small text-appearance"
+            @click="showResetPwdView"
+          >{{ $translate("Ceres::Template.loginForgotPassword") }}?</a>
+        </div>
+        <div :class="{'col-5 col-sm-8 text-sm-right': !modalElement}">
+          <slot name="extend-overlay-buttons" />
+          <button
+            :disabled="isDisabled"
+            class="btn btn-primary btn-appearance btn-medium"
+            :class="[{'float-right': !modalElement}, buttonSizeClass]"
+            @click.prevent="validateLogin"
+          >
+            {{ $translate("Ceres::Template.login") }}
+            <icon
+              icon="user"
+              :loading="isDisabled"
+            />
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -71,6 +106,19 @@ export default {
         };
     },
 
+    watch:
+    {
+        password()
+        {
+            this.resetError();
+        },
+
+        username()
+        {
+            this.resetError();
+        }
+    },
+
     mounted()
     {
         this.$nextTick(() =>
@@ -79,19 +127,6 @@ export default {
 
             AutoFocusService.triggerAutoFocus();
         });
-    },
-
-    watch:
-    {
-        password(val, oldVal)
-        {
-            this.resetError();
-        },
-
-        username(val, oldVal)
-        {
-            this.resetError();
-        }
     },
 
     methods:
@@ -152,21 +187,22 @@ export default {
 
                     switch (response.error.code)
                     {
-                        case 401:
-                            this.loginFields.forEach(element => element.classList.add("has-login-error"));
+                    case 401: {
+                        this.loginFields.forEach(element => element.classList.add("has-login-error"));
 
-                            let translationKey = "Ceres::Template.loginFailed";
+                        let translationKey = "Ceres::Template.loginFailed";
 
-                            if (response.error.message.length > 0 && response.error.message === "user is blocked")
-                            {
-                                translationKey = "Ceres::Template.loginBlocked";
-                            }
-                            NotificationService.error(
-                                this.$translate(translationKey)
-                            ).closeAfter(10000);
-                            break;
-                        default:
-                            return;
+                        if (response.error.message.length > 0 && response.error.message === "user is blocked")
+                        {
+                            translationKey = "Ceres::Template.loginBlocked";
+                        }
+                        NotificationService.error(
+                            this.$translate(translationKey)
+                        ).closeAfter(10000);
+                        break;
+                    }
+                    default:
+                        return;
                     }
                 });
         },

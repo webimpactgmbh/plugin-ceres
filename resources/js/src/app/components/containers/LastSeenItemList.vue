@@ -1,30 +1,37 @@
 <template>
-    <div class="row" v-show="items.length">
-        <div class="col-12">
-            <slot name="heading"></slot>
-        </div>
-
-        <div class="col-12">
-            <carousel :items-per-page="itemsPerPage">
-                <template slot="items" v-for="item in items">
-                    <category-item
-                            :key="item.id"
-                            :item-data="item.data"
-                            :decimal-count="$ceres.config.item.storeSpecial"
-                            :disable-carousel-on-mobile="items.length > itemsPerPage"
-                            :padding-classes="paddingClasses"
-                            :padding-inline-styles="paddingInlineStyles">
-                        <template #before-prices>
-                            <div v-html="getContainerContentById(item.id, 'beforePrices')"></div>
-                        </template>
-                        <template #after-prices>
-                            <div v-html="getContainerContentById(item.id, 'afterPrices')"></div>
-                        </template>
-                    </category-item>
-                </template>
-            </carousel>
-        </div>
+  <div
+    v-show="items.length"
+    class="row"
+  >
+    <div class="col-12">
+      <slot name="heading" />
     </div>
+
+    <div class="col-12">
+      <carousel :items-per-page="itemsPerPage">
+        <template
+          v-for="item in items"
+          slot="items"
+        >
+          <category-item
+            :key="item.id"
+            :item-data="item.data"
+            :decimal-count="$ceres.config.item.storeSpecial"
+            :disable-carousel-on-mobile="items.length > itemsPerPage"
+            :padding-classes="paddingClasses"
+            :padding-inline-styles="paddingInlineStyles"
+          >
+            <template #before-prices>
+              <div v-html="getContainerContentById(item.id, 'beforePrices')" />
+            </template>
+            <template #after-prices>
+              <div v-html="getContainerContentById(item.id, 'afterPrices')" />
+            </template>
+          </category-item>
+        </template>
+      </carousel>
+    </div>
+  </div>
 </template>
 
 <script>

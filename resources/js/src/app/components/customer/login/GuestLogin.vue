@@ -1,20 +1,42 @@
 <template>
-    <div>
-        <form ref="form" method="post" class="mb-3 login-pwd-reset">
-            <div class="input-unit" data-validate="mail">
-                <input type="email" name="email" autocomplete="email" :id="_uid" v-model="email" data-autofocus>
-                <label :for="_uid">{{ $translate("Ceres::Template.loginEmail") }}*</label>
-            </div>
-            <span class="error-msg">{{ $translate("Ceres::Template.loginEnterConfirmEmail") }}</span>
+  <div>
+    <form
+      ref="form"
+      method="post"
+      class="mb-3 login-pwd-reset"
+    >
+      <div
+        class="input-unit"
+        data-validate="mail"
+      >
+        <input
+          :id="_uid"
+          v-model="email"
+          type="email"
+          name="email"
+          autocomplete="email"
+          data-autofocus
+        >
+        <label :for="_uid">{{ $translate("Ceres::Template.loginEmail") }}*</label>
+      </div>
+      <span class="error-msg">{{ $translate("Ceres::Template.loginEnterConfirmEmail") }}</span>
 
-            <div class="text-right">
-                <button @click.prevent="validate" :disabled="isDisabled" class="btn btn-primary btn-medium btn-appearance" :class="buttonSizeClass">
-                    {{ $translate("Ceres::Template.loginNext") }}
-                    <icon icon="arrow-right" :loading="isDisabled"></icon>
-                </button>
-            </div>
-        </form>
-    </div>
+      <div class="text-right">
+        <button
+          :disabled="isDisabled"
+          class="btn btn-primary btn-medium btn-appearance"
+          :class="buttonSizeClass"
+          @click.prevent="validate"
+        >
+          {{ $translate("Ceres::Template.loginNext") }}
+          <icon
+            icon="arrow-right"
+            :loading="isDisabled"
+          />
+        </button>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -61,7 +83,7 @@ export default {
         this.$nextTick(() =>
         {
             // for old login view only (input in modal)
-            if(!isNullOrUndefined(this.$parent.$refs.guestModal))
+            if (!isNullOrUndefined(this.$parent.$refs.guestModal))
             {
                 this.$parent.$refs.guestModal.addEventListener("hidden.bs.modal", () =>
                 {

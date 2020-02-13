@@ -1,38 +1,56 @@
 <template>
-    <div class="container-max">
-        <div class="d-flex flex-grow-1 position-relative my-2">
-            <input type="search" class="search-input flex-grow-1 px-3 py-2" ref="searchInput" v-model="searchString" @input="onValueChanged($event.target.value)"
-                @keyup.enter="search()" @focus="isSearchFocused = true" @blur="setIsSearchFocused(false)" :autofocus="isShopBuilder">
+  <div class="container-max">
+    <div class="d-flex flex-grow-1 position-relative my-2">
+      <input
+        ref="searchInput"
+        v-model="searchString"
+        type="search"
+        class="search-input flex-grow-1 px-3 py-2"
+        :autofocus="isShopBuilder"
+        @input="onValueChanged($event.target.value)"
+        @keyup.enter="search()"
+        @focus="isSearchFocused = true"
+        @blur="setIsSearchFocused(false)"
+      >
 
-            <slot name="search-button">
-                <button class="search-submit px-3" type="submit" @click="search()">
-                    <i class="fa fa-search"></i>
-                </button>
-            </slot>
-        </div>
-
-        <slot name="autocomplete-suggestions" v-if="isSearchFocused && autocompleteResult.length">
-            <div class="autocomplete-suggestions shadow bg-white w-100 overflow-auto" v-if="isSearchFocused && autocompleteResult.length">
-                <search-suggestion-items
-                    :show-item-images="showItemImages"
-                    :forward-to-single-item="forwardToSingleItem">
-                </search-suggestion-items>
-            </div>
-        </slot>
+      <slot name="search-button">
+        <button
+          class="search-submit px-3"
+          type="submit"
+          @click="search()"
+        >
+          <i class="fa fa-search" />
+        </button>
+      </slot>
     </div>
+
+    <slot
+      v-if="isSearchFocused && autocompleteResult.length"
+      name="autocomplete-suggestions"
+    >
+      <div
+        v-if="isSearchFocused && autocompleteResult.length"
+        class="autocomplete-suggestions shadow bg-white w-100 overflow-auto"
+      >
+        <search-suggestion-items
+          :show-item-images="showItemImages"
+          :forward-to-single-item="forwardToSingleItem"
+        />
+      </div>
+    </slot>
+  </div>
 </template>
 
 <script>
 import UrlService from "../../services/UrlService";
 import { isNullOrUndefined, defaultValue } from "../../helper/utils";
 import { pathnameEquals } from "../../helper/url";
-import ApiService from "../../services/ApiService";
-import { mapState } from 'vuex';
-import { debounce } from '../../helper/debounce';
+import { mapState } from "vuex";
+import { debounce } from "../../helper/debounce";
 
 export default {
 
-    name: "item-search",
+    name: "ItemSearch",
 
     props: {
         showItemImages:
@@ -80,6 +98,18 @@ export default {
             autocompleteResult: state => state.itemSearch.autocompleteResult,
             moduleSearchString: state => state.itemList.searchString
         })
+    },
+
+    watch:
+    {
+        // set the current search string, after clicking on a suggestion
+        moduleSearchString(newVal)
+        {
+            if (newVal && newVal.length)
+            {
+                this.searchString = newVal;
+            }
+        }
     },
 
     mounted()
@@ -131,18 +161,6 @@ export default {
                 this.isSearchFocused = !!value;
             }, 100);
         }
-    },
-
-    watch:
-    {
-        // set the current search string, after clicking on a suggestion
-        moduleSearchString(newVal)
-        {
-            if (newVal && newVal.length)
-            {
-                this.searchString = newVal;
-            }
-        }        
     }
 }
 </script>

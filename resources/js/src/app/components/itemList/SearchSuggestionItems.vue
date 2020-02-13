@@ -1,28 +1,34 @@
 <template>
-    <div>
-        <a
-            v-for="(item, index) in autocompleteResult"
-            class="autocomplete-suggestion"
-            :class="paddingClasses"
-            :style="paddingInlineStyles"
-            :key="index"
-            :href="getTargetUrl(item.data)"
-            @mousedown.prevent="onSuggestionSelected(item.data)"
+  <div>
+    <a
+      v-for="(item, index) in autocompleteResult"
+      :key="index"
+      class="autocomplete-suggestion"
+      :class="paddingClasses"
+      :style="paddingInlineStyles"
+      :href="getTargetUrl(item.data)"
+      @mousedown.prevent="onSuggestionSelected(item.data)"
+    >
+      <div
+        v-if="showItemImages"
+        class="autocomplete-image-container mr-2"
+      >
+        <img
+          class="autocomplete-image mw-100"
+          :src="item.data.images | itemImages('urlPreview') | itemImage"
         >
-            <div class="autocomplete-image-container mr-2" v-if="showItemImages">
-                <img
-                    class="autocomplete-image mw-100"
-                    :src="item.data.images | itemImages('urlPreview') | itemImage"
-                />
-            </div>
+      </div>
 
-            <div class="autocomplete-item-name" v-html="getDisplayName(item.data)"></div>
-        </a>
-    </div>
+      <div
+        class="autocomplete-item-name"
+        v-html="getDisplayName(item.data)"
+      />
+    </a>
+  </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState } from "vuex";
 
 export default {
     props:
@@ -43,12 +49,12 @@ export default {
             type: String,
             default: "px-3 py-2"
         },
-        
+
         paddingInlineStyles:
         {
             type: String,
             default: null
-        },
+        }
     },
 
     computed:
@@ -75,7 +81,7 @@ export default {
 
         getTargetUrl(itemData)
         {
-            if (this.forwardToSingleItem) 
+            if (this.forwardToSingleItem)
             {
                 return this.$options.filters.itemURL(itemData);
             }

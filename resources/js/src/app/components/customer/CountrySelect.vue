@@ -1,32 +1,57 @@
 <template>
-    <div>
-        <div class="input-unit" data-validate="" data-model="countryId">
-            <select  :value="selectedCountryId" class="custom-select" @change="countryChanged($event.target.value)">
-                <option :value="country.id" :selected="country.id === selectedCountryId" v-for="country in countryList" :key="country.id">
-                    {{ country.currLangName }}
-                </option>
-            </select>
-            <label>{{ $translate("Ceres::Template.headerCountry") }}</label>
-        </div>
-
-        <template v-if="isInOptionalFields('stateId')">
-            <div
-                class="input-unit"
-                v-if="stateList && stateList.length > 0"
-                v-validate="isInRequiredFields('stateId')"
-                data-model="stateId">
-                <select :value="selectedStateId" class="custom-select" @change="stateChanged($event.target.value)">
-                    <option :selected="selectedStateId === null">{{ $translate("Ceres::Template.addressPleaseSelect") }}</option>
-                    <option :value="state.id" :selected="state.id === selectedStateId" v-for="state in stateList" :key="state.id">
-                        {{ state.name }}
-                    </option>
-                </select>
-                <label>
-                    {{ transformTranslation("Ceres::Template.headerState", "stateId") }}
-                </label>
-            </div>
-        </template>
+  <div>
+    <div
+      class="input-unit"
+      data-validate=""
+      data-model="countryId"
+    >
+      <select
+        :value="selectedCountryId"
+        class="custom-select"
+        @change="countryChanged($event.target.value)"
+      >
+        <option
+          v-for="country in countryList"
+          :key="country.id"
+          :value="country.id"
+          :selected="country.id === selectedCountryId"
+        >
+          {{ country.currLangName }}
+        </option>
+      </select>
+      <label>{{ $translate("Ceres::Template.headerCountry") }}</label>
     </div>
+
+    <template v-if="isInOptionalFields('stateId')">
+      <div
+        v-if="stateList && stateList.length > 0"
+        v-validate="isInRequiredFields('stateId')"
+        class="input-unit"
+        data-model="stateId"
+      >
+        <select
+          :value="selectedStateId"
+          class="custom-select"
+          @change="stateChanged($event.target.value)"
+        >
+          <option :selected="selectedStateId === null">
+            {{ $translate("Ceres::Template.addressPleaseSelect") }}
+          </option>
+          <option
+            v-for="state in stateList"
+            :key="state.id"
+            :value="state.id"
+            :selected="state.id === selectedStateId"
+          >
+            {{ state.name }}
+          </option>
+        </select>
+        <label>
+          {{ transformTranslation("Ceres::Template.headerState", "stateId") }}
+        </label>
+      </div>
+    </template>
+  </div>
 </template>
 
 <script>
@@ -36,7 +61,7 @@ import { mapState } from "vuex";
 
 export default {
 
-    name: "country-select",
+    name: "CountrySelect",
 
     props:
     {
@@ -101,6 +126,13 @@ export default {
             shippingCountryId: state => state.localization.shippingCountryId,
             countryList: state => state.localization.shippingCountries
         })
+    },
+
+    watch: {
+        selectedCountryId()
+        {
+            this.updateSelectedCountry();
+        }
     },
 
     /**
@@ -177,13 +209,6 @@ export default {
             const isRequired = this.isInRequiredFields(addressKey);
 
             return translation + (isRequired ? "*" : "");
-        }
-    },
-
-    watch: {
-        selectedCountryId()
-        {
-            this.updateSelectedCountry();
         }
     }
 }

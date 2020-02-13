@@ -1,78 +1,139 @@
 <template>
-    <div>
-        <div :class="{'no-pointer-events': waiting}" class="add-to-basket-lg-container d-none d-lg-block" v-if="!showQuantity && useLargeScale && canBeAddedToBasket"
-             v-tooltip data-toggle="tooltip" data-placement="top" :title="$translate('Ceres::Template.singleItemAddToBasket')" @click="addToBasket()">
-            <icon icon="cart-plus" class="fa-lg mobile-icon-right" :loading="waiting"></icon>
-        </div>
-
-        <div class="add-to-basket-lg-container d-none d-lg-block" v-if="!showQuantity && useLargeScale && !canBeAddedToBasket"
-             v-tooltip data-toggle="tooltip" data-placement="top" :title="$translate('Ceres::Template.itemShowItem')" @click="directToItem()">
-            <i class="fa fa-arrow-right fa-lg d-none d-sm-block"></i>
-        </div>
-
-        <div class="d-inline d-lg-none" v-if="showQuantity && !useLargeScale">
-            <div class="add-to-basket-container">
-                <div class="quantity-input-container">
-                    <quantity-input :value="quantity"
-                                    @quantity-change="updateQuantity"
-                                    @out-of-stock="handleButtonState"
-                                    :timeout="0"
-                                    :min="minimumQuantity"
-                                    :max="maximumQuantity"
-                                    :interval="intervalQuantity"
-                                    :variation-id="variationId">
-                    </quantity-input>
-                </div>
-
-                <button
-                        v-if="!isVariationSelected || !isSalable"
-                        class="btn btn-block btn-primary btn-appearance disabled"
-                        v-tooltip
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        :title="tooltipText"
-                        :class="buttonClasses"
-                        :style="paddingInlineStyles">
-                    <i class="fa fa-shopping-cart" aria-hidden="true"></i>
-                    {{ $translate("Ceres::Template.singleItemAddToBasket") }}
-                </button>
-                <button
-                        v-else-if="!buttonLockState"
-                        :disabled="waiting || !hasPrice"
-                        class="btn btn-block btn-primary btn-appearance"
-                        @click="addToBasket()"
-                        :class="buttonClasses"
-                        :style="paddingInlineStyles">
-                    <icon icon="shopping-cart" :loading="waiting"></icon>
-                    {{ $translate("Ceres::Template.singleItemAddToBasket") }}
-                </button>
-                <button v-else
-                        class="btn btn-block btn-primary btn-appearance disabled"
-                        v-tooltip
-                        data-toggle="tooltip"
-                        data-placement="top"
-                        :title="'Ceres::Template.singleItemQuantityMax' | translate({max: item.variation.maximumOrderQuantity})"
-                        :class="buttonClasses"
-                        :style="paddingInlineStyles">
-                    <icon icon="shopping-cart" :waiting="waiting"></icon>
-                    {{ $translate("Ceres::Template.singleItemAddToBasket") }}
-                </button>
-            </div>
-        </div>
-
-        <div class="d-inline d-lg-none" v-if="!showQuantity && !useLargeScale">
-            <div class="btn-group" role="group" aria-label="Thumb Control">
-                <button type="button" :class="{'no-pointer-events': waiting}" v-if="canBeAddedToBasket" class="btn btn-primary btn-appearance mobile-width-button" @click="addToBasket()">
-                    <icon icon="shopping-cart" class="fa-lg mobile-icon-right" :loading="waiting"></icon>
-                    {{ $translate("Ceres::Template.singleItemAddToBasket") }}
-                </button>
-                <button type="button" v-if="!canBeAddedToBasket" class="btn btn-primary btn-appearance mobile-width-button" @click="directToItem()">
-                    <i class="fa fa-arrow-right fa-lg d-none d-sm-block" aria-hidden="true"></i>
-                    {{ $translate("Ceres::Template.itemShowItem") }}
-                </button>
-            </div>
-        </div>
+  <div>
+    <div
+      v-if="!showQuantity && useLargeScale && canBeAddedToBasket"
+      v-tooltip
+      :class="{'no-pointer-events': waiting}"
+      class="add-to-basket-lg-container d-none d-lg-block"
+      data-toggle="tooltip"
+      data-placement="top"
+      :title="$translate('Ceres::Template.singleItemAddToBasket')"
+      @click="addToBasket()"
+    >
+      <icon
+        icon="cart-plus"
+        class="fa-lg mobile-icon-right"
+        :loading="waiting"
+      />
     </div>
+
+    <div
+      v-if="!showQuantity && useLargeScale && !canBeAddedToBasket"
+      v-tooltip
+      class="add-to-basket-lg-container d-none d-lg-block"
+      data-toggle="tooltip"
+      data-placement="top"
+      :title="$translate('Ceres::Template.itemShowItem')"
+      @click="directToItem()"
+    >
+      <i class="fa fa-arrow-right fa-lg d-none d-sm-block" />
+    </div>
+
+    <div
+      v-if="showQuantity && !useLargeScale"
+      class="d-inline d-lg-none"
+    >
+      <div class="add-to-basket-container">
+        <div class="quantity-input-container">
+          <quantity-input
+            :value="quantity"
+            :timeout="0"
+            :min="minimumQuantity"
+            :max="maximumQuantity"
+            :interval="intervalQuantity"
+            :variation-id="variationId"
+            @quantity-change="updateQuantity"
+            @out-of-stock="handleButtonState"
+          />
+        </div>
+
+        <button
+          v-if="!isVariationSelected || !isSalable"
+          v-tooltip
+          class="btn btn-block btn-primary btn-appearance disabled"
+          data-toggle="tooltip"
+          data-placement="top"
+          :title="tooltipText"
+          :class="buttonClasses"
+          :style="paddingInlineStyles"
+        >
+          <i
+            class="fa fa-shopping-cart"
+            aria-hidden="true"
+          />
+          {{ $translate("Ceres::Template.singleItemAddToBasket") }}
+        </button>
+        <button
+          v-else-if="!buttonLockState"
+          :disabled="waiting || !hasPrice"
+          class="btn btn-block btn-primary btn-appearance"
+          :class="buttonClasses"
+          :style="paddingInlineStyles"
+          @click="addToBasket()"
+        >
+          <icon
+            icon="shopping-cart"
+            :loading="waiting"
+          />
+          {{ $translate("Ceres::Template.singleItemAddToBasket") }}
+        </button>
+        <button
+          v-else
+          v-tooltip
+          class="btn btn-block btn-primary btn-appearance disabled"
+          data-toggle="tooltip"
+          data-placement="top"
+          :title="'Ceres::Template.singleItemQuantityMax' | translate({max: item.variation.maximumOrderQuantity})"
+          :class="buttonClasses"
+          :style="paddingInlineStyles"
+        >
+          <icon
+            icon="shopping-cart"
+            :waiting="waiting"
+          />
+          {{ $translate("Ceres::Template.singleItemAddToBasket") }}
+        </button>
+      </div>
+    </div>
+
+    <div
+      v-if="!showQuantity && !useLargeScale"
+      class="d-inline d-lg-none"
+    >
+      <div
+        class="btn-group"
+        role="group"
+        aria-label="Thumb Control"
+      >
+        <button
+          v-if="canBeAddedToBasket"
+          type="button"
+          :class="{'no-pointer-events': waiting}"
+          class="btn btn-primary btn-appearance mobile-width-button"
+          @click="addToBasket()"
+        >
+          <icon
+            icon="shopping-cart"
+            class="fa-lg mobile-icon-right"
+            :loading="waiting"
+          />
+          {{ $translate("Ceres::Template.singleItemAddToBasket") }}
+        </button>
+        <button
+          v-if="!canBeAddedToBasket"
+          type="button"
+          class="btn btn-primary btn-appearance mobile-width-button"
+          @click="directToItem()"
+        >
+          <i
+            class="fa fa-arrow-right fa-lg d-none d-sm-block"
+            aria-hidden="true"
+          />
+          {{ $translate("Ceres::Template.itemShowItem") }}
+        </button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -233,6 +294,29 @@ export default {
             waiting: false
         };
     },
+    watch:
+    {
+        quantity(value)
+        {
+            this.$store.commit("setVariationOrderQuantity", value);
+        },
+
+        variationOrderQuantity(value)
+        {
+            if (this.quantity !== value)
+            {
+                this.quantity = value;
+            }
+        },
+
+        propQuantity(value)
+        {
+            if (!isNaN(value))
+            {
+                this.quantity = value;
+            }
+        }
+    },
 
     methods:
     {
@@ -284,7 +368,7 @@ export default {
                     };
 
                 this.$store.dispatch("addBasketItem", basketObject).then(
-                    response =>
+                    () =>
                     {
                         document.dispatchEvent(new CustomEvent("afterBasketItemAdded", { detail: basketObject }));
                         this.waiting = false;
@@ -310,6 +394,7 @@ export default {
             this.$store.commit("setVariationMarkInvalidProps", true);
 
             const propertyNames = this.missingOrderProperties.map(property => property.property.names.name);
+
             let errorMsgContent = "";
 
             for (const name of propertyNames)
@@ -337,29 +422,6 @@ export default {
         updateQuantity(value)
         {
             this.quantity = value;
-        }
-    },
-    watch:
-    {
-        quantity(value)
-        {
-            this.$store.commit("setVariationOrderQuantity", value);
-        },
-
-        variationOrderQuantity(value)
-        {
-            if (this.quantity !== value)
-            {
-                this.quantity = value;
-            }
-        },
-
-        propQuantity(value)
-        {
-            if (!isNaN(value))
-            {
-                this.quantity = value;
-            }
         }
     }
 }

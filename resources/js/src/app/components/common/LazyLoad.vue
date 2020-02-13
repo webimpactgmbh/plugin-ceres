@@ -1,15 +1,13 @@
 <template>
-    <div v-if="isLoaded">
-        <slot></slot>
-    </div>
+  <div v-if="isLoaded">
+    <slot />
+  </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
 export default {
 
-    name: "lazy-load",
+    name: "LazyLoad",
 
     props: {
         component: String
