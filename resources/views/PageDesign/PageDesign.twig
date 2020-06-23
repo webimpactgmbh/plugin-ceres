@@ -251,6 +251,9 @@
         return source += "?v={{ buildHash }}";
     };
 
+    Vue.config.performance = true;
+    Vue.config.devtools = true;
+
     window.vueEventHub = new Vue();
 
     if (App.config.log.checkSyntax)

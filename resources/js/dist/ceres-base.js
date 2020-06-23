@@ -58433,8 +58433,6 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.prototype.$mount = _mount__WEBPACK_IMPORTED_MODULE_6__["default"];
 window.Vue = vue__WEBPACK_IMPORTED_MODULE_4___default.a;
 window.Vuex = vuex__WEBPACK_IMPORTED_MODULE_5__["default"];
-vue__WEBPACK_IMPORTED_MODULE_4___default.a.config.performance = true;
-vue__WEBPACK_IMPORTED_MODULE_4___default.a.config.devtools = true;
 
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(_app_plugins_script2__WEBPACK_IMPORTED_MODULE_7__["default"]);
 
