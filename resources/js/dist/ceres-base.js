@@ -52165,9 +52165,9 @@ function CeresMain() {
       window.location.reload();
     }
   }; // init bootstrap tooltips
-  // $("[data-toggle=\"tooltip\"]").tooltip();
 
 
+  $("[data-toggle=\"tooltip\"]").tooltip();
   HeaderCollapse("#countrySettings");
   HeaderCollapse("#currencySelect");
   HeaderCollapse("#searchBox");
