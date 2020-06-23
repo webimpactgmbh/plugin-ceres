@@ -19,6 +19,7 @@ window.Vue = Vue;
 window.Vuex = Vuex;
 
 Vue.config.performance = true;
+Vue.config.devtools = true;
 
 import script2 from "./app/plugins/script2";
 Vue.use(script2);
