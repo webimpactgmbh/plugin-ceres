@@ -5,7 +5,6 @@
             <dl>
                 <slot name="before-item-sum"></slot>
 
-
                 <!-- Basket value (gross) -->
                 <template v-if="visibleFields.includes('basketValueGross')">
                     <dt :class="{ 'font-weight-bold': !showNetPrices }">
