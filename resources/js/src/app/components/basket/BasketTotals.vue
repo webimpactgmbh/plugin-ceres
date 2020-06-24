@@ -5,17 +5,6 @@
             <dl>
                 <slot name="before-item-sum"></slot>
                 
-                <!-- Basket value (net) -->
-                <template v-if="visibleFields.includes('basketValueNet')">
-                    <dt :class="{ 'font-weight-bold': showNetPrices }">
-                        {{ $translate("Ceres::Template.basketValue") }} ({{ $translate("Ceres::Template.basketNet") }})
-                    </dt><!--
-                    --><dd :class="{ 'font-weight-bold': showNetPrices }">
-                        {{ calculateBaseValue(basket.itemSumNet, basket.basketRebate) | currency }}
-                    </dd>
-                </template>
-                <!-- Basket value (net) -->
-
                 <!-- Basket value (gross) -->
                 <template v-if="visibleFields.includes('basketValueGross')">
                     <dt :class="{ 'font-weight-bold': !showNetPrices }">
@@ -34,15 +23,6 @@
                     </dt><!--
                 --><dd class="rebate-hint" v-if="!showNetPrices">
                         {{ calculateBaseValue(basket.itemSum, basket.basketRebate) - basket.itemSum | currency  }}
-                    </dd><!--
-                --><dd class="rebate-hint" v-else>
-                        {{ calculateBaseValue(basket.itemSumNet, basket.basketRebate) - basket.itemSumNet | currency  }}
-                    </dd>
-                    <dt :class="{ 'font-weight-bold': showNetPrices }">
-                        {{ $translate("Ceres::Template.basketSubTotal") }} ({{ $translate("Ceres::Template.basketNet") }})
-                    </dt><!--
-                --><dd :class="{ 'font-weight-bold': showNetPrices }">
-                        {{ basket.itemSumNet | currency }}
                     </dd>
                     <dt :class="{ 'font-weight-bold': !showNetPrices }">
                         {{ $translate("Ceres::Template.basketSubTotal") }} ({{ $translate("Ceres::Template.basketGross") }})
@@ -57,17 +37,6 @@
                 <slot name="after-item-sum"></slot>
                 
                 <slot name="before-shipping-costs"></slot>
-
-                <!-- Shipping (net) -->
-                <template v-if="visibleFields.includes('shippingCostsNet')">
-                    <dt :class="{ 'font-weight-bold': showNetPrices }">
-                        {{ $translate("Ceres::Template.basketShippingCosts") }} ({{ $translate("Ceres::Template.basketNet") }})
-                    </dt><!--
-                    --><dd :class="{ 'font-weight-bold': showNetPrices }">
-                        {{ basket.shippingAmountNet | currency }}
-                    </dd>
-                </template>
-                <!-- Shipping (net) -->
 
                 <!-- Shipping (gross) -->
                 <template v-if="visibleFields.includes('shippingCostsGross')">
@@ -93,32 +62,9 @@
                 </template>
                 <!-- Coupon -->
                 
-                <hr>
                 <slot name="before-total-sum"></slot>
 
-                <!-- Total sum (net) -->
-                <template v-if="visibleFields.includes('totalSumNet')">
-                    <dt :class="{ 'font-weight-bold': showNetPrices }">
-                        {{ $translate("Ceres::Template.basketTotalSum") }} ({{ $translate("Ceres::Template.basketNet") }})
-                    </dt><!--
-                    --><dd :class="{ 'font-weight-bold': showNetPrices }">
-                        {{ basket.basketAmountNet | currency }}
-                    </dd>
-                </template>
-                <!-- Total sum (net) -->
-
                 <slot name="before-vat"></slot>
-
-                <!-- VAT -->
-                <div v-if="visibleFields.includes('vats')" class="vatTotals" v-for="totalVat in basket.totalVats">
-                    <dt>
-                        {{ $translate("Ceres::Template.basketVAT") }} {{ totalVat.vatValue }}%
-                    </dt><!--
-                    --><dd>
-                        {{ totalVat.vatAmount | currency }}
-                    </dd>
-                </div>
-                <!-- VAT -->
 
                 <slot name="after-vat"></slot>
 
@@ -158,6 +104,8 @@
                     <!-- Coupon open amount -->
                 </div>
                 
+                <div>{{ $translate("Ceres::Template.itemInclVAT") }}</div>
+
                 <slot name="after-total-sum"></slot>
             </dl>
         </div>
