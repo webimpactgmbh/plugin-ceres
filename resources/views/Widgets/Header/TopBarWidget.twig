@@ -209,6 +209,7 @@
                                         </template>
                                         <template #after-basket-totals>
                                             {{ Twig.print(Twig.call("LayoutContainer.show", ["Ceres::BasketPreview.AfterBasketTotals"])) }}
+                                            {{ Twig.print('trans("Ceres::Template.itemInclVAT")') }}
                                         </template>
                                         <template #before-checkout-button>
                                             {{ Twig.print(Twig.call("LayoutContainer.show", ["Ceres::BasketPreview.BeforeCheckoutButton"])) }}
