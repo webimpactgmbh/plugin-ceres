@@ -4,6 +4,7 @@
         <div class="component-loading with-icon refreshing" :class="{ 'is-loading': isBasketLoading }">
             <dl>
                 <slot name="before-item-sum"></slot>
+                
 
                 <!-- Basket value (gross) -->
                 <template v-if="visibleFields.includes('basketValueGross')">
