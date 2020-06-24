@@ -4,7 +4,8 @@
         <div class="component-loading with-icon refreshing" :class="{ 'is-loading': isBasketLoading }">
             <dl>
                 <slot name="before-item-sum"></slot>
-                
+
+
                 <!-- Basket value (gross) -->
                 <template v-if="visibleFields.includes('basketValueGross')">
                     <dt :class="{ 'font-weight-bold': !showNetPrices }">
@@ -38,6 +39,7 @@
                 
                 <slot name="before-shipping-costs"></slot>
 
+
                 <!-- Shipping (gross) -->
                 <template v-if="visibleFields.includes('shippingCostsGross')">
                     <dt :class="{ 'font-weight-bold': !showNetPrices }">
@@ -64,7 +66,9 @@
                 
                 <slot name="before-total-sum"></slot>
 
+
                 <slot name="before-vat"></slot>
+
 
                 <slot name="after-vat"></slot>
 

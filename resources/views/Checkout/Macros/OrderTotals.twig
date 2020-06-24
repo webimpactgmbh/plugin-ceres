@@ -7,6 +7,7 @@
     <h3>{{ trans("Ceres::Template.checkoutSum") }}</h3>
     <div>
         <dl>
+
             {% if 'orderValueGross' in shownFields or shownFields == null %}
                 {# ORDER VALUE GROSS #}
                 <dt{% if not highlightNetPrices %} class="font-weight-bold"{% endif %}>
@@ -35,6 +36,7 @@
                         {% endif %}
                     </dd>
 
+
                     {# SUB TOTAL GROSS #}
                     <dt {% if not highlightNetPrices %} class="font-weight-bold"{% endif %}>
                         {{ trans("Ceres::Template.orderConfirmationSubTotal") }} ({{ trans("Ceres::Template.checkoutGross") }})
@@ -48,6 +50,7 @@
                     </dd>
                 {% endif %}
             {% endif %}
+
 
             {% if 'shippingCostsGross' in shownFields or shownFields == null %}
                 {# SHIPPING COSTS GROSS #}
@@ -71,10 +74,12 @@
                 {% endif %}
             {% endif %}
 
+
             {% set grossNet = LayoutContainer.show("Ceres::OrderConfirmation.GrossNetReplace", orderData.order) %}
             {% if grossNet|trim is not empty %}
                 {{ grossNet }}
             {% else %}
+
 
                 <div class="totalSum">
                     {% if
