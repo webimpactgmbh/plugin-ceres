@@ -116,8 +116,9 @@
                                                         {{ LayoutContainer.show("Ceres::BasketTotals.AfterTotalSum") }}
                                                     </template>
                                                     <template #after-basket-totals>
+                                                        <div class="vat-change mb-2" v-if="!$store.state.basket.data.isExportDelivery && !$store.state.basket.showNetPrices">{{ trans("Ceres::Template.itemInclVAT") }}</div>
+                                                        <div class="vat-change mb-2" v-if="!$store.state.basket.data.isExportDelivery && $store.state.basket.showNetPrices">{{ trans("Ceres::Template.itemExclVAT") }}</div>
                                                         {{ LayoutContainer.show("Ceres::BasketPreview.AfterBasketTotals") }}
-                                                        {{ trans("Ceres::Template.itemInclVAT") }}
                                                     </template>
                                                     <template #before-checkout-button>
                                                         {{ LayoutContainer.show("Ceres::BasketPreview.BeforeCheckoutButton") }}
