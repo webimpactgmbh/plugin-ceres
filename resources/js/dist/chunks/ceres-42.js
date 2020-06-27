@@ -203,7 +203,8 @@ __webpack_require__.r(__webpack_exports__);
       default: ""
     }
   },
-  data: function data() {
+
+  data() {
     return {
       couponData: [],
       isFinalized: this.orderItem.giftCard.hasPdf,
@@ -211,8 +212,9 @@ __webpack_require__.r(__webpack_exports__);
       isFinalizing: false
     };
   },
+
   computed: {
-    pdfLink: function pdfLink() {
+    pdfLink() {
       var pdfLink = '/rest/online_store/gift_card/download_pdf/?orderId=' + this.orderItem.orderId + '&orderItemId=' + this.orderItem.id;
 
       if (this.orderAccessKey) {
@@ -221,11 +223,14 @@ __webpack_require__.r(__webpack_exports__);
 
       return pdfLink;
     },
-    isPaid: function isPaid() {
+
+    isPaid() {
       return this.paymentStatus === "fullyPaid" || this.paymentStatus === "overpaid";
     }
+
   },
-  created: function created() {
+
+  created() {
     for (var i = 0; i < this.orderItem.quantity; i++) {
       this.couponData.push({
         sender: this.orderItem.giftCard.information[i].sender,
@@ -236,10 +241,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  methods: {
-    submit: function submit() {
-      var _this = this;
 
+  methods: {
+    submit() {
       if (this.isFinalized || this.isLoading) {
         return;
       }
@@ -247,19 +251,17 @@ __webpack_require__.r(__webpack_exports__);
       this.isLoading = true;
       _services_ApiService__WEBPACK_IMPORTED_MODULE_2__["default"].put("/rest/online_store/gift_card/information", {
         giftCardInformation: this.couponData
-      }).done(function (response) {
-        _services_NotificationService__WEBPACK_IMPORTED_MODULE_0__["default"].success(_this.$translate("Ceres::Template.couponChangeSuccess")).closeAfter(3000);
-      }).fail(function () {
-        _services_NotificationService__WEBPACK_IMPORTED_MODULE_0__["default"].error(_this.$translate("Ceres::Template.couponChangeFailure")).closeAfter(10000);
-      }).always(function () {
-        _this.closeEditModal();
-
-        _this.isLoading = false;
+      }).done(response => {
+        _services_NotificationService__WEBPACK_IMPORTED_MODULE_0__["default"].success(this.$translate("Ceres::Template.couponChangeSuccess")).closeAfter(3000);
+      }).fail(() => {
+        _services_NotificationService__WEBPACK_IMPORTED_MODULE_0__["default"].error(this.$translate("Ceres::Template.couponChangeFailure")).closeAfter(10000);
+      }).always(() => {
+        this.closeEditModal();
+        this.isLoading = false;
       });
     },
-    finalize: function finalize() {
-      var _this2 = this;
 
+    finalize() {
       if (!this.isPaid || this.isLoading || this.isFinalizing) {
         return;
       }
@@ -269,29 +271,32 @@ __webpack_require__.r(__webpack_exports__);
         orderId: this.orderItem.orderId,
         orderItemId: this.orderItem.id,
         accessKey: this.orderAccessKey
-      }).done(function (response) {
-        _services_NotificationService__WEBPACK_IMPORTED_MODULE_0__["default"].success(_this2.$translate("Ceres::Template.couponFinalizeSuccess")).closeAfter(3000);
-        window.open(_this2.pdfLink, '_blank');
-        _this2.isFinalized = true;
-      }).fail(function () {
-        _services_NotificationService__WEBPACK_IMPORTED_MODULE_0__["default"].error(_this2.$translate("Ceres::Template.couponFinalizeFailure")).closeAfter(10000);
-      }).always(function () {
-        _this2.closeConfirmModal();
-
-        _this2.isFinalizing = false;
+      }).done(response => {
+        _services_NotificationService__WEBPACK_IMPORTED_MODULE_0__["default"].success(this.$translate("Ceres::Template.couponFinalizeSuccess")).closeAfter(3000);
+        window.open(this.pdfLink, '_blank');
+        this.isFinalized = true;
+      }).fail(() => {
+        _services_NotificationService__WEBPACK_IMPORTED_MODULE_0__["default"].error(this.$translate("Ceres::Template.couponFinalizeFailure")).closeAfter(10000);
+      }).always(() => {
+        this.closeConfirmModal();
+        this.isFinalizing = false;
       });
     },
-    openConfirmModal: function openConfirmModal() {
+
+    openConfirmModal() {
       if (this.isPaid) {
         _services_ModalService__WEBPACK_IMPORTED_MODULE_1__["default"].findModal(this.$refs.confirmFinalizationOverlay).show();
       }
     },
-    closeEditModal: function closeEditModal() {
+
+    closeEditModal() {
       _services_ModalService__WEBPACK_IMPORTED_MODULE_1__["default"].findModal(this.$refs.editCouponOverlay).hide();
     },
-    closeConfirmModal: function closeConfirmModal() {
+
+    closeConfirmModal() {
       _services_ModalService__WEBPACK_IMPORTED_MODULE_1__["default"].findModal(this.$refs.confirmFinalizationOverlay).hide();
     }
+
   }
 });
 

@@ -70,84 +70,91 @@ __webpack_require__.r(__webpack_exports__);
       default: ""
     }
   },
-  mounted: function mounted() {
-    var _this = this;
 
-    this.$nextTick(function () {
-      if (!Object(_helper_utils__WEBPACK_IMPORTED_MODULE_0__["isNullOrUndefined"])(_this.$refs.node) && !Object(_helper_utils__WEBPACK_IMPORTED_MODULE_0__["isNullOrUndefined"])(_this.$refs.handle)) {
-        var node = _this.$refs.node;
+  mounted() {
+    this.$nextTick(() => {
+      if (!Object(_helper_utils__WEBPACK_IMPORTED_MODULE_0__["isNullOrUndefined"])(this.$refs.node) && !Object(_helper_utils__WEBPACK_IMPORTED_MODULE_0__["isNullOrUndefined"])(this.$refs.handle)) {
+        var node = this.$refs.node;
 
         if (!App.isShopBuilder) {
           node.parentElement.removeChild(node);
           document.body.appendChild(node);
         }
 
-        _this.popper = new popper_js__WEBPACK_IMPORTED_MODULE_4__["default"](_this.$refs.handle.firstElementChild || _this.$refs.handle, node, {
-          placement: _this.placement,
+        this.popper = new popper_js__WEBPACK_IMPORTED_MODULE_4__["default"](this.$refs.handle.firstElementChild || this.$refs.handle, node, {
+          placement: this.placement,
           modifiers: {
             arrow: {
-              element: _this.$refs.arrow
+              element: this.$refs.arrow
             }
           },
           removeOnDestroy: true
         });
-        var handle = _this.$refs.handle.firstElementChild || _this.$refs.handle;
+        var handle = this.$refs.handle.firstElementChild || this.$refs.handle;
 
-        if (_this.trigger === "focus") {
-          handle.addEventListener("focus", function () {
-            _this.showPopper();
+        if (this.trigger === "focus") {
+          handle.addEventListener("focus", () => {
+            this.showPopper();
           });
-          handle.addEventListener("blur", function () {
-            _this.hidePopper();
+          handle.addEventListener("blur", () => {
+            this.hidePopper();
           });
         } else {
-          handle.addEventListener(_this.trigger, function () {
-            _this.togglePopper();
+          handle.addEventListener(this.trigger, () => {
+            this.togglePopper();
           });
         }
       }
 
-      var parentModal = Object(_helper_dom__WEBPACK_IMPORTED_MODULE_1__["findParent"])(_this.$el, ".modal");
+      var parentModal = Object(_helper_dom__WEBPACK_IMPORTED_MODULE_1__["findParent"])(this.$el, ".modal");
 
       if (!Object(_helper_utils__WEBPACK_IMPORTED_MODULE_0__["isNullOrUndefined"])(parentModal)) {
-        Object(_services_ModalService__WEBPACK_IMPORTED_MODULE_2__["findModal"])(parentModal).on("hide.bs.modal", function () {
-          _this.hidePopper();
+        Object(_services_ModalService__WEBPACK_IMPORTED_MODULE_2__["findModal"])(parentModal).on("hide.bs.modal", () => {
+          this.hidePopper();
         });
       }
     });
   },
-  destroyed: function destroyed() {
+
+  destroyed() {
     this.popper.destroy();
   },
-  data: function data() {
+
+  data() {
     return {
       isVisible: false,
       popper: null
     };
   },
+
   computed: {
-    classNames: function classNames() {
+    classNames() {
       return this.popoverClass + (!this.isVisible ? " d-none" : "");
     }
+
   },
   methods: {
-    togglePopper: function togglePopper() {
+    togglePopper() {
       this.isVisible = !this.isVisible;
       this.update();
     },
-    showPopper: function showPopper() {
+
+    showPopper() {
       this.isVisible = true;
       this.update();
     },
-    hidePopper: function hidePopper() {
+
+    hidePopper() {
       this.isVisible = false;
       this.update();
     },
-    update: function update() {
+
+    update() {
       if (!Object(_helper_utils__WEBPACK_IMPORTED_MODULE_0__["isNullOrUndefined"])(this.popper)) {
         this.popper.scheduleUpdate();
       }
     }
+
   }
 });
 

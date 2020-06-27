@@ -37,15 +37,17 @@ __webpack_require__.r(__webpack_exports__);
     bundleComponents: Array
   },
   computed: {
-    showItemBundleItems: function showItemBundleItems() {
+    showItemBundleItems() {
       return App.bundleSetting !== 1 && this.bundleType === "bundle";
     }
+
   },
   methods: {
-    getBundleInnerText: function getBundleInnerText(item) {
+    getBundleInnerText(item) {
       item.variation.bundleType = null;
       return item;
     }
+
   }
 });
 
@@ -99,12 +101,14 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
-    bundleType: function bundleType() {
+    bundleType() {
       return this.isPreview ? 'bundle' : this.$store.getters["".concat(this.itemId, "/currentItemVariation")].variation.bundleType;
     },
-    bundleComponents: function bundleComponents() {
+
+    bundleComponents() {
       return this.$store.getters["".concat(this.itemId, "/currentItemVariation")].bundleComponents;
     }
+
   }
 });
 

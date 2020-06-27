@@ -9,14 +9,8 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! core-js/modules/es.array.find */ "./node_modules/core-js/modules/es.array.find.js");
-/* harmony import */ var core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_array_find__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var core_js_modules_es_number_constructor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! core-js/modules/es.number.constructor */ "./node_modules/core-js/modules/es.number.constructor.js");
-/* harmony import */ var core_js_modules_es_number_constructor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(core_js_modules_es_number_constructor__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var owl_carousel__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! owl.carousel */ "./node_modules/owl.carousel/dist/owl.carousel.js");
-/* harmony import */ var owl_carousel__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(owl_carousel__WEBPACK_IMPORTED_MODULE_2__);
-
-
+/* harmony import */ var owl_carousel__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! owl.carousel */ "./node_modules/owl.carousel/dist/owl.carousel.js");
+/* harmony import */ var owl_carousel__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(owl_carousel__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -36,9 +30,7 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     SlotComponent: {
       functional: true,
-      render: function render(createElement, context) {
-        return context.data.attrs.vnode;
-      }
+      render: (createElement, context) => context.data.attrs.vnode
     }
   },
   props: {
@@ -48,23 +40,25 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
-    columnWidths: function columnWidths() {
+    columnWidths() {
       var itemsPerPage = Math.min(Math.max(this.itemsPerPage, 1), 4);
       return ["col-12", itemsPerPage === 1 ? "col-sm-12" : "col-sm-6", "col-md-" + 12 / itemsPerPage];
     }
-  },
-  mounted: function mounted() {
-    var _this = this;
 
-    this.$nextTick(function () {
-      _this.initializeCarousel();
+  },
+
+  mounted() {
+    this.$nextTick(() => {
+      this.initializeCarousel();
     });
   },
-  updated: function updated() {
+
+  updated() {
     this.initializeCarousel();
   },
+
   methods: {
-    initializeCarousel: function initializeCarousel() {
+    initializeCarousel() {
       if (this.$slots.items && this.$slots.items[0].tag && this.$slots.items.length > this.itemsPerPage) {
         var $owl = $(this.$refs.carouselContainer); // do not render, if no html element is inside of the carousels container
 
@@ -73,11 +67,12 @@ __webpack_require__.r(__webpack_exports__);
         }
 
         $owl.owlCarousel({
-          onInitialized: function onInitialized() {
+          onInitialized() {
             $owl.find(".owl-carousel.owl-loaded").each(function () {
               $(this).trigger("refresh.owl.carousel");
             });
           },
+
           autoHeight: true,
           dots: true,
           items: this.itemsPerPage,
@@ -107,6 +102,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     }
+
   }
 });
 
