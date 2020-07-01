@@ -61287,13 +61287,13 @@ __webpack_require__.r(__webpack_exports__);
     allowedTypesForOrders: {
       type: Array,
       default: function _default() {
-        return ["invoice", "invoice_external", "delivery_note", "order_confirmation", "pickup_delivery", "reversal_document", "return_note"];
+        return ["invoice", "invoice_external", "delivery_note", "order_confirmation", "pickup_delivery", "reversal_document", "return_note", "returns_label"];
       }
     },
     allowedTypesForReturns: {
       type: Array,
       default: function _default() {
-        return ["return_note"];
+        return ["return_note", "returns_label"];
       }
     }
   },

@@ -32,7 +32,8 @@ export default Vue.component("order-documents", {
                 "order_confirmation",
                 "pickup_delivery",
                 "reversal_document",
-                "return_note"
+                "return_note",
+                "returns_label"
             ]
         },
 
@@ -40,7 +41,8 @@ export default Vue.component("order-documents", {
         {
             type: Array,
             default: () => [
-                "return_note"
+                "return_note",
+                "returns_label"
             ]
         }
     },
